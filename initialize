@@ -1,0 +1,138 @@
+#!/usr/bin/env bash
+set -e;
+
+
+if ! docker info > /dev/null 2>&1; then
+    echo -e "Docker is not running." >&2;
+    exit 1;
+fi
+
+function onError()
+{
+    echo '';
+    echo -e '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+echo -e '┃ 💥 [1;31mIt looks like something went wrong![0m';
+echo -e '┃ ';
+    echo -e '┃ Feel free to open an issue on GitHub by clicking on the link below.';
+    echo -e '┃ ';
+    echo -e '┃ Make sure to include helpful information such as:';
+    echo -e '┃ - the error output above';
+    echo -e '┃ - the configuration chosen before downloading the archive';
+    echo -e '┃ - your local environment (operating system, etc.)';
+    echo -e '┃ - other information that seems relevant to you';
+    echo -e '┃ ';
+    echo -e '┃ \033[1mhttps://github.com/NiclasvanEyk/initializer-for-laravel/issues/new\033[0m';
+echo -e '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';    echo '';
+}
+trap onError ERR;
+trap 'echo -e "\nCancelled"; exit 0;' INT;
+echo '';
+echo -e '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+echo -e '┃ 🚀 [1mInitializer for Laravel[0m';
+echo -e '┃ ';
+echo -e '┃ This script will complete the rest of the setup needed to install the';
+echo -e '┃ chosen components into your fresh application. This might require';
+echo -e '┃ downloading Docker containers or requiring packages via composer';
+echo -e '┃ multiple times, so it can take a while to complete.';
+echo -e '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';if [ -t 1 ];
+then
+    echo '';
+    read -n 1 -s -r -p "Press any key to continue";
+    echo '';
+else
+    echo '';
+fi
+
+echo '';
+echo -e '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+echo -e '┃ 🚀 [1mInstall dependencies and set up Laravel Sail[0m';
+
+echo -e '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';echo '';
+
+echo 'Running initial installation inside '\''initializerforlaravel/sail-php-8.0:latest'\'''
+docker run --rm \
+    -e WWWUSER=$(id -u) \
+    -v "$(pwd)":/opt \
+    -w /opt \
+    "initializerforlaravel/sail-php-8.0:latest" \
+    bash -c "composer install && php -r \"file_exists('.env') || copy('.env.example', '.env');\" && php artisan key:generate --ansi && php artisan sail:install --with=mysql && perl -0777 -pi -e 's/\.\/vendor\/laravel\/sail\/runtimes\/\d\.\d/.\/vendor\/laravel\/sail\/runtimes\/8.0/g' docker-compose.yml && perl -0777 -pi -e 's/sail-\d\.\d\/app/sail-8.0\/app/g' docker-compose.yml"
+echo '';
+echo -e '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+echo -e '┃ 🚀 [1mAdjust Permissions[0m';
+
+echo -e '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';echo '';
+
+echo 'sudo chown -R $USER: .'
+    if sudo -n true 2>/dev/null; then
+        sudo chown -R $USER: .
+    else
+        echo -e "Please provide your password so we can make some final adjustments to your application's permissions."
+        echo ""
+        sudo chown -R $USER: .
+    fi
+echo '';
+echo -e '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+echo -e '┃ 🚀 [1mStart Laravel Sail[0m';
+
+echo -e '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';echo '';
+
+echo './vendor/bin/sail up -d'
+./vendor/bin/sail up -d
+echo '';
+echo -e '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+echo -e '┃ 🚀 [1mInstall Laravel Breeze[0m';
+
+echo -e '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';echo '';
+
+echo './vendor/bin/sail artisan breeze:install blade'
+./vendor/bin/sail artisan breeze:install blade
+echo '';
+echo -e '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+echo -e '┃ 🚀 [1mMigrate the database[0m';
+
+echo -e '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';echo '';
+
+echo 'Waiting for database to accept connections...'
+attempt=1;
+maxAttempts=5;
+sleepTime=5;
+until ./vendor/bin/sail artisan tinker --execute 'try { DB::statement("select true"); echo("DB ready"); } catch (Throwable $e) { exit(1); }' | grep -q "DB ready" || [ $attempt -eq $maxAttempts ]; do
+    echo "Attempt $attempt failed, retrying in ${sleepTime}s...";
+    ((attempt=attempt+1));
+    sleep $sleepTime;
+done
+
+if [ "$attempt" -eq "$maxAttempts" ]; then
+    echo "Could not connect to database after $attempt attempts! Aborting...";
+    exit 1;
+fi
+
+echo "Database ready!"
+echo './vendor/bin/sail artisan migrate'
+./vendor/bin/sail artisan migrate
+echo '';
+echo -e '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+echo -e '┃ 🚀 [1mSetup frontend[0m';
+
+echo -e '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';echo '';
+
+echo './vendor/bin/sail npm install pusher-js laravel-echo'
+./vendor/bin/sail npm install pusher-js laravel-echo
+echo './vendor/bin/sail npm run dev'
+./vendor/bin/sail npm run dev
+
+echo "Finished setup, removing initialize and TODOs in README.md!";
+rm "./initialize";
+
+# Remove TODO in readme
+perl -0777 -pi -e 's/<!-- Initializer for Laravel Todos START  -->.*<!-- Initializer for Laravel Todos END  -->//gs' README.md
+echo '';
+echo -e '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+echo -e '┃ 🚀 [1mDone![0m';
+echo -e '┃ ';
+echo -e '┃ You can now have a look at README.md, for further instructions, guides';
+echo -e '┃ and links to the installed components.';
+echo -e '┃ ';
+echo -e '┃ Some helpful links:';
+echo -e '┃ - Your Application http://localhost';
+echo -e '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';echo '';

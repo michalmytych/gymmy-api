@@ -1,0 +1,8 @@
+{
+    "name": "gymmy",
+    "short_name": "gymmy",
+    "theme_color": "#FFFFFF",
+    "background_color": "#FFFFFF",
+    "orientation": "portrait",
+    "display": "standalone"
+}
