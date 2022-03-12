@@ -12,6 +12,8 @@
         @csrf
         <input name="name" type="text" placeholder="Nazwa ćwiczenia">
         <br>
+        <textarea name="description" placeholder="Opis ćwiczenia">
+        <br>
         <input type="submit" value="Zapisz">
     </form>
 

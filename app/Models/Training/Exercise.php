@@ -14,6 +14,7 @@ class Exercise extends Model
 
     protected $fillable = [
         'realization_id',
+        'description',
         'name'
     ];
 
