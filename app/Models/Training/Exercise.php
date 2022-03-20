@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Exercise extends Model
 {
@@ -17,6 +18,11 @@ class Exercise extends Model
         'description',
         'name'
     ];
+
+    public function muscleGroups(): BelongsToMany
+    {
+        return $this->belongsToMany(MuscleGroup::class);
+    }
 
     public function series(): HasMany
     {

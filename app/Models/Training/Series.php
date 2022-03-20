@@ -14,7 +14,7 @@ class Series extends Model
         'repetitions_count',
         'break_duration',
         'realization_id',
-        'weight',
-        'is_target'
+        'is_target',
+        'weight'
     ];
 }

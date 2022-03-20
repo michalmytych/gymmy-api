@@ -1,7 +1,18 @@
+:root {
+    --primary: #10bc5b;
+    --primary-hover: #91efba;
+    --primary-active: #099244;
+    --secondary: #91efba;
+    --secondary-bg: #1f201f;
+    --secondary-lt: rgb(72, 70, 74);
+    --primary-low-opactiy: #54a17892;
+    --white: rgb(253, 249, 255);
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    color: white;
-    background-color: rgb(22, 23, 23);
+    color: var(--white);
+    background-color: var(--secondary-bg);
 }
 
 ul {
@@ -12,20 +23,20 @@ ul {
 a {
     text-decoration: none;
     font-weight: bolder;
-    color: rgb(95, 134, 18);
+    color: var(--primary);
 }
 
 a:hover {
-    color: rgb(119, 178, 0);
+    color: var(--primary-hover);
 }
 
 a:active {
-    color: rgb(53, 74, 11);
+    color: var(--primary-active);
 }
 
 button, input[type="submit"] {
-    color:white;
-    background-color: rgb(127, 190, 0);
+    color: var(--white);
+    background-color: var(--primary);
     border: none;
     padding: 0.2rem 1rem;
     transition: 0.5s;
@@ -33,12 +44,12 @@ button, input[type="submit"] {
 }
 
 button:hover, input[type="submit"]:hover {
-    background-color: rgb(188, 254, 56);
+    background-color: var(--primary-hover);
     cursor: pointer;
 }
 
 button:active, input[type="submit"]:hover {
-    background-color: rgb(91, 137, 0);
+    background-color: var(--primary-active);
 }
 
 .logo {
@@ -54,6 +65,103 @@ button:active, input[type="submit"]:hover {
 }
 
 .logo::first-letter{
-    color: rgb(188, 254, 56);
+    color: var(--primary-hover);
+}
+
+.lines_box{
+    height: 2rem;
+    width: 2em;
+}
+
+.lines_box:hover {
+    cursor: pointer;
+}
+
+.line {
+    background-color: var(--primary);
+    height: 0.2rem;
+    width: 100%;
+}
+
+.lines_box:hover .line {
+    background-color: var(--primary-hover);
+}
+
+.line_top {
+        position: relative;
+}
+
+.line_middle {
+    position: relative;
+    top: 0.33rem;
+}
+
+.line_bottom {
+    position: relative;
+    top: 0.66rem;
+}
+
+table {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.table-body{
+    background-color: var(--secondary-lt);
+    border-radius: 5px;
+    width: 100%;
+    padding: 0;
+    border: 0;
+}
+
+tr {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.table-cell{
+    padding: 0.5rem;
+}
+
+.primary-cell{
+    width: 64%;
+}
+
+.action-cell{
+    width: 17%;
+}
+
+.shadowed-light {
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.page-container{
+    width: 40%;
+    margin: 0 auto;
+}
+
+input, textarea, input[type="textarea"], input[type="number"]{
+    background-color: var(--primary-low-opactiy);
+    border: none;
+    padding: 0.2rem;
+    border-radius: 3px;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    font-weight: lighter;
+    color: var(--white);
+    outline: none;
+}
+
+input[type="submit"]{
+    width: unset;
+}
+
+@media (max-width: 600px) {
+    .page-container{
+        width: 100%;
+        margin: 0 auto;
+    }
+
 }
 

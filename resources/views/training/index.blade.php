@@ -45,26 +45,19 @@
                 <option value="{{ $exercise->id }}">{{ $exercise->name }}</option>
             @endforeach
         </select>
-        <button type="submit">Zapisz</button>
+        <button type="submit" class="shadowed-light">Zapisz</button>
     </form>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Nazwa</th>
-                <th>Realizacja</th>
-                <th>Edycja</th>
-            </tr>
-        </thead>
+    <table class="table-body shadowed-light">
         <tbody>
-            @foreach($trainings as $training)
+            @foreach($trainings as $key => $training)
                 <tr>
-                    <td>
+                    <td class="table-cell primary-cell">
                         <a href="{{ route('training.show', ['training' => $training->id]) }}">
                             {{ $training->name }}
                         </a>
                     </td>
-                    <td>
+                    <td class="table-cell action-cell">
                         @if($realization)
                             @if($realization->training->is($training))
                                 <a href="{{ route('training.realize', ['training' => $realization->training->id]) }}">
@@ -79,7 +72,7 @@
                             </a>
                         @endif
                     </td>
-                    <td>
+                    <td class="table-cell action-cell">
                         <a href="{{ route('training.update', ['training' => $training->id]) }}">
                             Edytuj
                         </a>
@@ -118,7 +111,17 @@
             const minutes = Math.floor((allSeconds - hours * 3600) / 60)
             const seconds = Math.floor((allSeconds - hours * 3600) - minutes * 60)
 
-            trainingDurationDisplay.innerHTML = `${hours} godzin ${minutes} minut ${seconds} sekund`
+            let finalDisplay = `${seconds} sekund`
+
+            if (minutes > 0) {
+                finalDisplay = `${minutes} minut ` + finalDisplay
+            }
+
+            if (hours > 0) {
+                finalDisplay = `${hours} godzin ` + finalDisplay
+            }
+
+            trainingDurationDisplay.innerHTML = finalDisplay
         }
 
         if (trainingDurationDisplay) {

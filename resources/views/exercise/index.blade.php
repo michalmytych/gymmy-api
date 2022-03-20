@@ -12,8 +12,16 @@
         @csrf
         <input name="name" type="text" placeholder="Nazwa ćwiczenia">
         <br>
-        <textarea name="description" placeholder="Opis ćwiczenia">
+        <textarea name="description" placeholder="Opis ćwiczenia"></textarea>
         <br>
+        <select
+            name="muscle_groups[ ]"
+            multiple="multiple"
+        >
+            @foreach($muscle_groups as $muscleGroup)
+                <option value="{{ $muscleGroup->id }}">{{ $muscleGroup->name }}</option>
+            @endforeach
+        </select>
         <input type="submit" value="Zapisz">
     </form>
 
