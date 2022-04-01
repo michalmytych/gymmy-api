@@ -7,11 +7,10 @@
         <title>{{ config('app.name', 'gymmy') }}</title>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <body class="font-sans antialiased">
         <div>
-            <div class="logo">gymmy</div>
-
             <nav id="nav" style="position: relative; top: -3.5rem;">
                 <ul>
                     <li>

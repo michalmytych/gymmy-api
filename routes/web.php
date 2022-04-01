@@ -17,7 +17,7 @@ use App\Http\Controllers\RealizationController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->to(route('training.index'));
 });
 
 Route::prefix('exercises')

@@ -1,18 +1,25 @@
 :root {
-    --primary: #10bc5b;
-    --primary-hover: #91efba;
-    --primary-active: #099244;
-    --secondary: #91efba;
-    --secondary-bg: #1f201f;
-    --secondary-lt: rgb(72, 70, 74);
-    --primary-low-opactiy: #54a17892;
-    --white: rgb(253, 249, 255);
+    --primary: #7E1E80;
+    --primary-hover: #9505E3;
+    --primary-active: #B637FB;
+    --primary-inner-text: #FAFAFA;
+    --secondary: #E3E3E3;
+    --secondary-inner-text: #929292;
+    --red-dot-color: #c90000;
+    --backgrounds: #FAFAFA;
+    --text: #2d2c2c;
+    --border-radius: 10px;
+    --box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+    --drop-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    --default-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --default-font-weight: 400;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    color: var(--white);
-    background-color: var(--secondary-bg);
+    font-family: var(--default-font);
+    font-weight: var(--default-font-weight);
+    color: var(--text);
+    background-color: var(--backgrounds);
 }
 
 ul {
@@ -22,7 +29,7 @@ ul {
 
 a {
     text-decoration: none;
-    font-weight: bolder;
+    font-weight: var(--default-font-weight);
     color: var(--primary);
 }
 
@@ -35,12 +42,13 @@ a:active {
 }
 
 button, input[type="submit"] {
-    color: var(--white);
+    color: var(--primary-inner-text);
     background-color: var(--primary);
     border: none;
     padding: 0.2rem 1rem;
     transition: 0.5s;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
 }
 
 button:hover, input[type="submit"]:hover {
@@ -50,6 +58,34 @@ button:hover, input[type="submit"]:hover {
 
 button:active, input[type="submit"]:hover {
     background-color: var(--primary-active);
+}
+
+input, textarea, input[type="textarea"], input[type="number"], input[type="select"], select {
+    background-color: var(--secondary);
+    border: none;
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    width: 100%;
+    font-family: var(--default-font);
+    font-weight: var(--default-font-weight);
+    color: var(--secondary-inner-text);
+    outline: none;
+    box-shadow: var(--box-shadow);
+}
+
+.skeleton {
+    background-color: var(--secondary);
+    border-radius: var(--border-radius);
+    animation: colorBrightnessPulseLight 0.8s alternate-reverse infinite;
+}
+
+input[type="select"], select {
+    width: 103%;
+}
+
+input[type="submit"]{
+    width: unset;
 }
 
 .logo {
@@ -88,7 +124,7 @@ button:active, input[type="submit"]:hover {
 }
 
 .line_top {
-        position: relative;
+    position: relative;
 }
 
 .line_middle {
@@ -107,8 +143,8 @@ table {
 }
 
 .table-body{
-    background-color: var(--secondary-lt);
-    border-radius: 5px;
+    background-color: var(--secondary);
+    border-radius: var(--border-radius);
     width: 100%;
     padding: 0;
     border: 0;
@@ -125,15 +161,15 @@ tr {
 }
 
 .primary-cell{
-    width: 64%;
+    width: 55%;
 }
 
 .action-cell{
-    width: 17%;
+    width: 20%;
 }
 
 .shadowed-light {
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--box-shadow);
 }
 
 .page-container{
@@ -141,27 +177,65 @@ tr {
     margin: 0 auto;
 }
 
-input, textarea, input[type="textarea"], input[type="number"]{
-    background-color: var(--primary-low-opactiy);
-    border: none;
-    padding: 0.2rem;
-    border-radius: 3px;
-    margin-bottom: 0.5rem;
-    width: 100%;
-    font-weight: lighter;
-    color: var(--white);
-    outline: none;
+.red-dot {
+    height: 10px;
+    width: 10px;
+    background-color: var(--red-dot-color);
+    border-radius: 50%;
+    display: inline-block;
+    animation: colorBrightnessPulse 0.8s alternate-reverse infinite;
 }
 
-input[type="submit"]{
-    width: unset;
+.positioned-icon {
+    vertical-align: middle;
+    filter: drop-shadow(var(--drop-shadow));
+    padding-bottom: 2px;
 }
 
-@media (max-width: 600px) {
+@-webkit-keyframes colorBrightnessPulseIntense {
+    from {
+        filter: brightness(1.5);
+    }
+    to {
+        filter: brightness(0.6);
+    }
+}
+
+@keyframes colorBrightnessPulseIntense {
+    from {
+        filter: brightness(1.5);
+    }
+    to {
+        filter: brightness(0.6);
+    }
+}
+
+@-webkit-keyframes colorBrightnessPulseLight {
+    from {
+        filter: brightness(1.2);
+    }
+    to {
+        filter: brightness(0.8);
+    }
+}
+
+@keyframes colorBrightnessPulseLight {
+    from {
+        filter: brightness(1.2);
+    }
+    to {
+        filter: brightness(0.8);
+    }
+}
+
+@media (max-width: 900px) {
     .page-container{
         width: 100%;
         margin: 0 auto;
     }
 
+    .mobile-hidden {
+        display: none;
+    }
 }
 
