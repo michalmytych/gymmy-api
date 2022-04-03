@@ -2,11 +2,7 @@
 
 @section('header')
     <h1>Treningi</h1>
-    <button
-            class="shadowed"
-            id="toggleFormButton">
-        Dodaj
-    </button>
+    <button class="shadowed" id="toggleFormButton">Dodaj</button>
 @endsection
 
 @section('content')
@@ -61,10 +57,9 @@
     <table class="table-body shadowed-light">
         <tbody>
             @foreach($trainings as $key => $training)
-                <tr>
+                <tr class="table-row">
                     <td class="table-cell primary-cell">
                         <a href="{{ route('training.show', ['training' => $training->id]) }}">
-                            <i class="material-icons positioned-icon">fitness_center</i>
                             {{ $training->name }}
                         </a>
                     </td>
@@ -76,7 +71,7 @@
                                     <div class="mobile-hidden">Kontynuuj</div>
                                 </a>
                             @else
-                                <p style="color: rgb(108, 108, 108);">Realizuj</p>
+                                <p style="color: rgb(108, 108, 108);"><i class="material-icons positioned-icon">play_arrow</i></p>
                             @endif
                         @else
                             <a href="{{ route('training.realize', ['training' => $training->id]) }}">

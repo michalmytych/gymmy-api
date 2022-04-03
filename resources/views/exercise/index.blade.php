@@ -27,17 +27,20 @@
         <input type="submit" value="Zapisz">
     </form>
 
-    <table class="table table-sm">
-        <thead>
-            <tr>
-                <th>Nazwa</th>
-            </tr>
-        </thead>
+    <table class="table-body shadowed-light">
         <tbody>
-            @foreach($exercises as $exercise)
-                <tr>
-                    <td>
-                        {{ $exercise->name }}
+            @foreach($exercises as $key => $exercise)
+                <tr class="table-row">
+                    <td class="table-cell primary-cell">
+                        <a href="{{ route('exercise.show', ['exercise' => $exercise->id]) }}">
+                            {{ $exercise->name }}
+                        </a>
+                    </td>
+                    <td class="table-cell action-cell">
+                        <a href="{{ route('exercise.update', ['exercise' => $exercise->id]) }}">
+                            <i class="material-icons positioned-icon">create</i>
+                            <div class="mobile-hidden">Edytuj</div>
+                        </a>
                     </td>
                 </tr>
             @endforeach

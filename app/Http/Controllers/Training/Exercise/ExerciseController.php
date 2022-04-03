@@ -21,6 +21,14 @@ class ExerciseController extends Controller
         ]);
     }
 
+    public function show(Exercise $exercise): View
+    {
+        return view('exercise.show', [
+            'exercise' => $exercise,
+            'muscle_groups' => MuscleGroup::all()
+        ]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $exercise = Exercise::create($request->input());
@@ -28,6 +36,24 @@ class ExerciseController extends Controller
         $exercise->muscleGroups()->sync($request->input('muscle_groups'));
 
         return redirect()->to(route('exercise.index'));
+    }
+
+    public function update(Exercise $exercise, Request $request): RedirectResponse|View
+    {
+        if (request()->isMethod('put')) {
+            $training = tap($exercise)->update($request->input());
+
+            $training
+                ->muscleGroups()
+                ->sync($request->input('muscle_groups'));
+
+            return redirect()->to(route('exercise.index'));
+        }
+
+        return view('exercise.update', [
+            'exercise'  => $exercise,
+            'muscle_groups' => $exercise->muscleGroups,
+        ]);
     }
 
     public function realize(Request $request, Realization $realization): View

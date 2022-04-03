@@ -27,6 +27,9 @@ Route::prefix('exercises')
     ->group(function () {
         Route::get('/', [ExerciseController::class, 'index'])->name('index');
         Route::post('/', [ExerciseController::class, 'store'])->name('store');
+        Route::get('/{exercise}', [ExerciseController::class, 'show'])->name('show');
+        Route::match(['get', 'put'], '/{exercise}/update', [ExerciseController::class, 'update'])
+            ->name('update');
         Route::match(['get', 'post'], '/realize/{realization}', [ExerciseController::class, 'realize'])
             ->name('realize');
     });
