@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Training\MuscleGroup;
+use App\Models\Training\Exercise\MuscleGroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MuscleGroupFactory extends Factory

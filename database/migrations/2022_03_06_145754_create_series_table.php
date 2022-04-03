@@ -15,12 +15,9 @@ return new class extends Migration
     {
         Schema::create('series', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('exercise_id')->references('id')->on('exercises');
             $table->foreignUuid('realization_id')->references('id')->on('realizations');
             $table->integer('repetitions_count');
-            $table->integer('break_duration');
-            $table->decimal('weight', 7, 2);
-            $table->boolean('is_target')->default(false);
+            $table->decimal('weight_kg', 7);
             $table->timestamps();
         });
     }

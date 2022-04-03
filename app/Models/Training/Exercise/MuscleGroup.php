@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Training;
+namespace App\Models\Training\Exercise;
 
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +11,7 @@ class MuscleGroup extends Model
     use HasFactory, HasUuid;
 
     protected $fillable = [
-        'name'
+        'name',
+        'description'
     ];
 }

@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Training\TrainingController;
-use App\Http\Controllers\Exercise\ExerciseController;
-use App\Http\Controllers\RealizationController;
+use App\Http\Controllers\Training\Exercise\ExerciseController;
+use App\Http\Controllers\Training\Realization\SeriesController;
+use App\Http\Controllers\Training\Realization\RealizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,23 +24,31 @@ Route::get('/', function () {
 Route::prefix('exercises')
     ->middleware(['auth'])
     ->as('exercise.')
-    ->group(function() {
+    ->group(function () {
         Route::get('/', [ExerciseController::class, 'index'])->name('index');
         Route::post('/', [ExerciseController::class, 'store'])->name('store');
+        Route::match(['get', 'post'], '/realize/{realization}', [ExerciseController::class, 'realize'])
+            ->name('realize');
     });
 
 
 Route::prefix('realizations')
     ->middleware(['auth'])
     ->as('realization.')
-    ->group(function() {
+    ->group(function () {
         Route::post('/{realization}/complete', [RealizationController::class, 'complete'])->name('complete');
+
+        Route::prefix('series')
+            ->as('series.')
+            ->group(function () {
+                Route::post('/{realization}', [SeriesController::class, 'store'])->name('store');
+            });
     });
 
 Route::prefix('trainings')
     ->middleware(['auth'])
     ->as('training.')
-    ->group(function() {
+    ->group(function () {
         Route::get('/', [TrainingController::class, 'index'])->name('index');
         Route::get('/{training}', [TrainingController::class, 'show'])->name('show');
         Route::match(['get', 'put'], '/{training}/update', [TrainingController::class, 'update'])->name('update');
@@ -53,4 +62,4 @@ Route::prefix('trainings')
         Route::delete('/series/{series}/delete', [TrainingController::class, 'deleteSeries'])->name('delete-series');
     });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Models\Training;
+namespace App\Models\Training\Exercise;
 
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Training\Realization\Series;
+use App\Models\Training\Realization\Realization;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -15,6 +17,7 @@ class Exercise extends Model
 
     protected $fillable = [
         'realization_id',
+        'break_duration_s',
         'description',
         'name'
     ];
@@ -24,13 +27,8 @@ class Exercise extends Model
         return $this->belongsToMany(MuscleGroup::class);
     }
 
-    public function series(): HasMany
+    public function realizations(): MorphMany
     {
-        return $this->hasMany(Series::class);
-    }
-
-    public function realization(): BelongsTo
-    {
-        return $this->belongsTo(Realization::class);
+        return $this->morphMany(Realization::class, 'realizationable');
     }
 }

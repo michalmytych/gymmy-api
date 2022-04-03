@@ -14,8 +14,8 @@
         @if($realization)
             <h4>
                 <span class="red-dot"></span>
-                Trwa trening {{ $realization->training->name }}
-                <a href="{{ route('training.realize', ['training' => $realization->training->id]) }}">
+                Trwa trening {{ $realization->realizationable->name }}
+                <a href="{{ route('training.realize', ['training' => $realization->realizationable->id]) }}">
                     <i class="material-icons positioned-icon">play_arrow</i>Kontynuuj
                 </a>
             </h4>
@@ -70,8 +70,8 @@
                     </td>
                     <td class="table-cell action-cell">
                         @if($realization)
-                            @if($realization->training->is($training))
-                                <a href="{{ route('training.realize', ['training' => $realization->training->id]) }}">
+                            @if($realization->realizationable->is($training))
+                                <a href="{{ route('training.realize', ['training' => $realization->realizationable->id]) }}">
                                     <i class="material-icons positioned-icon">play_arrow</i>
                                     <div class="mobile-hidden">Kontynuuj</div>
                                 </a>
@@ -140,11 +140,11 @@
             }
 
             if (minutes < 10) {
-                finalDisplay = '0' + finalDisplay
+                finalDisplay = '0:' + finalDisplay
             }
 
             if (hours > 0) {
-                finalDisplay = `${hours}` + finalDisplay
+                finalDisplay = `${hours}:` + finalDisplay
             } else {
                 finalDisplay = `00:` + finalDisplay
             }

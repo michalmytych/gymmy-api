@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Training;
+namespace App\Models\Training\Realization;
 
 use App\Traits\HasUuid;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Series extends Model
 {
@@ -12,9 +12,7 @@ class Series extends Model
 
     protected $fillable = [
         'repetitions_count',
-        'break_duration',
         'realization_id',
-        'is_target',
-        'weight'
+        'weight_kg'
     ];
 }

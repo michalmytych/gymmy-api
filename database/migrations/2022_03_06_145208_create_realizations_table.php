@@ -1,9 +1,9 @@
 <?php
 
 use App\Enums\RealizationStatusType;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -16,13 +16,12 @@ return new class extends Migration
     {
         Schema::create('realizations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table
-                ->foreignUuid('training_id')
-                ->references('id')
-                ->on('trainings');
             $table->dateTime('time_started');
             $table->dateTime('time_ended')->nullable();
-            $table->unsignedTinyInteger('status')->default(RealizationStatusType::CREATED);
+            $table->uuidMorphs('realizationable');
+            $table
+                ->unsignedTinyInteger('status')
+                ->default(RealizationStatusType::CREATED);
             $table->timestamps();
         });
     }

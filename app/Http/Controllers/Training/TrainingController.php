@@ -4,24 +4,26 @@ namespace App\Http\Controllers\Training;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Models\Training\Series;
 use App\Models\Training\Training;
-use App\Models\Training\Exercise;
 use App\Enums\RealizationStatusType;
-use App\Models\Training\Realization;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use App\Models\Training\Exercise\Exercise;
+use App\Models\Training\Realization\Series;
+use App\Models\Training\Realization\Realization;
 
 class TrainingController extends Controller
 {
     public function index(): View
     {
-        $realization = Realization::ofStatus(RealizationStatusType::RUNNING)->first();
+        $trainingRealization = Realization::where('realizationable_type', get_class(new Training()))
+            ->ofStatus(RealizationStatusType::RUNNING)
+            ->first();
 
         return view('training.index', [
-            'trainings' => Training::latest()->get(),
-            'exercises' => Exercise::latest()->get(),
-            'realization' => $realization
+            'trainings'   => Training::latest()->get(),
+            'exercises'   => Exercise::latest()->get(),
+            'realization' => $trainingRealization,
         ]);
     }
 
@@ -63,30 +65,29 @@ class TrainingController extends Controller
 
     public function realize(Training $training): View
     {
-        $realization = Realization::ofStatus(RealizationStatusType::RUNNING)->first();
+        $trainingRealization = Realization::where('realizationable_type', get_class($training))
+            ->ofStatus(RealizationStatusType::RUNNING)
+            ->first();
 
-        if ($realization) {
-            $passed = $realization->updated_at->lt(now()->subHour());
-            $isOther = $realization->training->is($training);
+        if ($trainingRealization) {
+            $passed  = $trainingRealization->updated_at->lt(now()->subHour());
+            $isOther = $trainingRealization->realizationable->is($training);
 
             if ($passed || !$isOther) {
-                $realization->complete();
+                $trainingRealization->complete();
             }
         } else {
-            $realization = Realization::create([
-                'time_started' => now(),
-                'training_id' => $training->id,
-                'status' => RealizationStatusType::RUNNING
-            ]);
-
-            $realization->exercises()->saveMany($training->exercises);
+            $trainingRealization = $training
+                ->realizations()
+                ->create([
+                    'time_started' => now(),
+                    'status'       => RealizationStatusType::RUNNING,
+                ]);
         }
 
         return view('training.realize', [
-            'realization' => $realization
-                ->with(['exercises.series' => fn($builder) => $builder
-                    ->where('series.realization_id', $realization->id)
-                ])->first()
+            'realization' => $trainingRealization,
+            'children_realizations' => $trainingRealization->childrenRealizations
         ]);
     }
 

@@ -2,12 +2,12 @@
 
 namespace Database\Factories\Training;
 
-use App\Models\Training\Exercise;
-use App\Models\Training\Realization;
+use App\Models\Training\Exercise\Exercise;
+use App\Models\Training\Realization\Realization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Training\Series>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Training\Realization\Series>
  */
 class SeriesFactory extends Factory
 {

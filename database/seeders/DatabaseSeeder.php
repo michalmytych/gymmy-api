@@ -2,12 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Training\Exercise;
-use App\Models\Training\Series;
-use App\Models\Training\Training;
-use App\Models\Training\Realization;
 use Illuminate\Database\Seeder;
-use App\Models\Training\MuscleGroup;
+use App\Models\Training\Exercise\MuscleGroup;
 
 class DatabaseSeeder extends Seeder
 {

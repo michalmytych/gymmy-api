@@ -81,7 +81,7 @@ input, textarea, input[type="textarea"], input[type="number"], input[type="selec
 }
 
 input[type="select"], select {
-    width: 103%;
+    width: 100%;
 }
 
 input[type="submit"]{
@@ -161,11 +161,11 @@ tr {
 }
 
 .primary-cell{
-    width: 55%;
+    width: 70%;
 }
 
 .action-cell{
-    width: 20%;
+    width: 10%;
 }
 
 .shadowed-light {
@@ -190,6 +190,14 @@ tr {
     vertical-align: middle;
     filter: drop-shadow(var(--drop-shadow));
     padding-bottom: 2px;
+}
+
+.horizontal-divider {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    background-color: var(--secondary);
+    height: 1px;
+    width: 100%;
 }
 
 @-webkit-keyframes colorBrightnessPulseIntense {
@@ -230,7 +238,7 @@ tr {
 
 @media (max-width: 900px) {
     .page-container{
-        width: 100%;
+        width: 90%;
         margin: 0 auto;
     }
 

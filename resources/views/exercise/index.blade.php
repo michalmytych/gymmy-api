@@ -14,6 +14,8 @@
         <br>
         <textarea name="description" placeholder="Opis ćwiczenia"></textarea>
         <br>
+        <input type="number" name="break_duration_s" placeholder="Długość przerwy">
+        <br>
         <select
             name="muscle_groups[ ]"
             multiple="multiple"

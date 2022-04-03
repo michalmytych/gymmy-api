@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('exercise_realization', function (Blueprint $table) {
-            $table->foreignUuid('exercise_id')->references('id')->on('exercises');
-            $table->foreignUuid('realization_id')->references('id')->on('realizations');
-            $table->timestamps();
+        Schema::table('realizations', function (Blueprint $table) {
+            $table
+                ->foreignUuid('parent_realization_id')
+                ->nullable()
+                ->references('id')
+                ->on('realizations');
         });
     }
 
@@ -27,6 +29,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('exercise_realization');
+        Schema::table('realizations', function (Blueprint $table) {
+            $table->dropForeign('parent_realization_id');
+        });
     }
 };
