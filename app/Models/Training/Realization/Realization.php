@@ -44,7 +44,10 @@ class Realization extends Model
 
     public function complete(): bool
     {
-        return $this->update(['status' => RealizationStatusType::COMPLETED]);
+        return $this->update([
+            'status'     => RealizationStatusType::COMPLETED,
+            'time_ended' => now(),
+        ]);
     }
 
     public function parentRealization(): BelongsTo

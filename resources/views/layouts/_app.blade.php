@@ -11,13 +11,16 @@
     </head>
     <body class="font-sans antialiased">
         <div>
-            <nav id="nav" style="position: relative; top: -3.5rem;">
+            <nav id="nav" style="position: relative; top: -5rem;">
                 <ul>
                     <li>
                         <a href="{{ route('training.index') }}">Treningi</a>
                     </li>
                     <li>
                         <a href="{{ route('exercise.index') }}">Ćwiczenia</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('realization.index') }}">Realizacje</a>
                     </li>
                 </ul>
                 <div id="lineBox" class="lines_box">
@@ -51,9 +54,9 @@
             lineBox.addEventListener('click', function(e) {
                 const nav = document.getElementById('nav')
 
-                if (nav.style.top === '-3.5rem') {
+                if (nav.style.top === '-5rem') {
                     nav.animate([
-                        { top: '-3.5rem' },
+                        { top: '-5rem' },
                         { top: '-0.2rem' }
                     ], {
                         duration: 150,
@@ -66,7 +69,7 @@
                 if (nav.style.top === '-0.2rem') {
                     nav.animate([
                         { top: '-0.2rem' },
-                        { top: '-3.5rem' }
+                        { top: '-5rem' }
                     ], {
                         duration: 500,
                         fill: 'forwards'

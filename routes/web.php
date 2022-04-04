@@ -39,6 +39,7 @@ Route::prefix('realizations')
     ->middleware(['auth'])
     ->as('realization.')
     ->group(function () {
+        Route::get('/', [RealizationController::class, 'index'])->name('index');
         Route::post('/{realization}/complete', [RealizationController::class, 'complete'])->name('complete');
 
         Route::prefix('series')
