@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Training\TrainingController;
-use App\Http\Controllers\Training\Exercise\ExerciseController;
-use App\Http\Controllers\Training\Realization\SeriesController;
-use App\Http\Controllers\Training\Realization\RealizationController;
+use App\Http\Controllers\Web\Training\TrainingController;
+use App\Http\Controllers\Web\Training\Exercise\ExerciseController;
+use App\Http\Controllers\Web\Training\Realization\SeriesController;
+use App\Http\Controllers\Web\Training\Realization\RealizationController;
 
 /*
 |--------------------------------------------------------------------------

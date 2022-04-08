@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Training\Realization;
+namespace App\Http\Controllers\Web\Training\Realization;
 
 use Illuminate\View\View;
 use App\Models\Training\Training;
@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Training\Exercise\Exercise;
 use App\Models\Training\Realization\Realization;
+use function view;
+use function route;
+use function redirect;
 
 class RealizationController extends Controller
 {

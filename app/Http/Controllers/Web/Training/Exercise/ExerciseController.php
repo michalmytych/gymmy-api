@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Training\Exercise;
+namespace App\Http\Controllers\Web\Training\Exercise;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
@@ -10,6 +10,12 @@ use Illuminate\Http\RedirectResponse;
 use App\Models\Training\Exercise\Exercise;
 use App\Models\Training\Exercise\MuscleGroup;
 use App\Models\Training\Realization\Realization;
+use function tap;
+use function now;
+use function view;
+use function route;
+use function request;
+use function redirect;
 
 class ExerciseController extends Controller
 {
