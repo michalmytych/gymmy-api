@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Training\Exercise;
 
 use App\Models\Training\Exercise\MuscleGroup;
 use Illuminate\Database\Eloquent\Factories\Factory;

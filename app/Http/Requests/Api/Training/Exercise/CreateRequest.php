@@ -11,6 +11,7 @@ class CreateRequest extends FormRequest
         return [
             'name'                => 'required|max:255',
             'description'         => 'required|max:2096',
+            'break_duration_s'    => 'required|integer|gt:0|max:1000',
             'muscle_groups_ids'   => 'array',
             'muscle_groups_ids.*' => 'exists:muscle_groups,id',
         ];

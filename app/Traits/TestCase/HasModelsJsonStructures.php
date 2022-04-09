@@ -26,4 +26,15 @@ trait HasModelsJsonStructures
                 'updated_at'       => 'string',
             ];
     }
+
+    private function muscleGroupJsonStructure(array $appends = []): array
+    {
+        return $appends + [
+                'id'          => 'string',
+                'name'        => 'string',
+                'description' => ['string', 'null'],
+                'created_at'  => 'string',
+                'updated_at'  => 'string',
+            ];
+    }
 }

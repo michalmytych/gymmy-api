@@ -26,7 +26,7 @@ class TrainingService
             ->exercises()
             ->sync(data_get($data, 'exercises_ids'));
 
-        return $training;
+        return $training->load('exercises');
     }
 
     public function update(Training $training, array $data): Training

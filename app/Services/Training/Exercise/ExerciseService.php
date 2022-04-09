@@ -26,7 +26,7 @@ class ExerciseService
             ->muscleGroups()
             ->sync(data_get($data, 'muscle_groups_ids'));
 
-        return $exercise;
+        return $exercise->load('muscleGroups');
     }
 
     public function update(Exercise $exercise, array $data): Exercise
@@ -37,6 +37,6 @@ class ExerciseService
             ->muscleGroups()
             ->sync(data_get($data, 'muscle_groups_ids'));
 
-        return $exercise;
+        return $exercise->load('muscleGroups');
     }
 }

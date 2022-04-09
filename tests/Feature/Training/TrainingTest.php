@@ -69,14 +69,25 @@ class TrainingTest extends TestCase
     {
         $this
             ->postJson(route('training.create'), [
-                'name'        => '::name::',
-                'description' => '::description::',
+                'name'          => '::name::',
+                'description'   => '::description::',
+                'exercises_ids' => Exercise::factory(3)->create()->pluck('id'),
             ])
             ->assertCreated()
             ->assertJson(fn(AssertableJson $json) => $json
                 ->where('name', '::name::')
                 ->where('description', '::description::')
-                ->whereAllType($this->trainingJsonStructure())
+                ->whereAllType($this->trainingJsonStructure(appends: [
+                    'exercises' => 'array',
+                ]))
+                ->has('exercises', fn(AssertableJson $json) => $json
+                    ->count(3)
+                    ->each(fn(AssertableJson $json) => $json
+                        ->whereAllType($this->exerciseJsonStructure(appends: [
+                            'pivot' => 'array',
+                        ]))
+                    )
+                )
             );
     }
 
@@ -144,21 +155,30 @@ class TrainingTest extends TestCase
                 [
                     'name'        => null,
                     'description' => null,
-                ]
+                ],
             ],
             'Empty string properties'   => [
                 [
-                    'name'        => null,
-                    'description' => null,
-                ]
+                    'name'        => '',
+                    'description' => '',
+                ],
             ],
             'Empty data'                => [
-                []
+                [],
             ],
             'Lacking required property' => [
                 [
                     'name' => '::name::',
-                ]
+                ],
+            ],
+            'Bad relation primary keys' => [
+                [
+                    'name'          => '::name::',
+                    'description'   => '::description::',
+                    'exercises_ids' => [
+                        '::bad primary key::',
+                    ],
+                ],
             ],
         ];
     }
@@ -170,13 +190,22 @@ class TrainingTest extends TestCase
                 [
                     'name'        => null,
                     'description' => null,
-                ]
+                ],
             ],
-            'Empty string properties'   => [
+            'Empty properties'          => [
                 [
-                    'name'        => null,
-                    'description' => null,
-                ]
+                    'name'        => '',
+                    'description' => '',
+                ],
+            ],
+            'Bad relation primary keys' => [
+                [
+                    'name'          => '::name::',
+                    'description'   => '::description::',
+                    'exercises_ids' => [
+                        '::bad primary key::',
+                    ],
+                ],
             ],
         ];
     }

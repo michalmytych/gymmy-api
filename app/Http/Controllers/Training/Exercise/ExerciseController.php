@@ -16,7 +16,7 @@ class ExerciseController extends Controller
 
     public function all(): JsonResponse
     {
-        return response()->json(
+        return response()->paginate(
             $this->exerciseService->all()
         );
     }
