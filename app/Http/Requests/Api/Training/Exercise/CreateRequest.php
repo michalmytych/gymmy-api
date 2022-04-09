@@ -9,8 +9,8 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'                => 'max:255',
-            'description'         => 'max:2096',
+            'name'                => 'required|max:255',
+            'description'         => 'required|max:2096',
             'muscle_groups_ids'   => 'array',
             'muscle_groups_ids.*' => 'exists:muscle_groups,id',
         ];
