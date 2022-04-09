@@ -2,11 +2,9 @@
 
 namespace App\Models\Training\Exercise;
 
-use App\Traits\HasUuid;
+use App\Traits\Models\HasUuid;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Training\Realization\Series;
 use App\Models\Training\Realization\Realization;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -16,7 +14,6 @@ class Exercise extends Model
     use HasFactory, HasUuid;
 
     protected $fillable = [
-        'realization_id',
         'break_duration_s',
         'description',
         'name'

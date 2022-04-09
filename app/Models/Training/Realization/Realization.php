@@ -2,7 +2,7 @@
 
 namespace App\Models\Training\Realization;
 
-use App\Traits\HasUuid;
+use App\Traits\Models\HasUuid;
 use App\Enums\RealizationStatusType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -11,6 +11,11 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property string $id
+ * @property RealizationStatusType $status
+ * @property string $realizationable_type
+ */
 class Realization extends Model
 {
     use HasFactory, HasUuid;
@@ -18,7 +23,6 @@ class Realization extends Model
     protected $fillable = [
         'parent_realization_id',
         'time_started',
-        'training_id',
         'time_ended',
         'status',
     ];

@@ -2,7 +2,7 @@
 
 namespace App\Models\Training\Exercise;
 
-use App\Traits\HasUuid;
+use App\Traits\Models\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
