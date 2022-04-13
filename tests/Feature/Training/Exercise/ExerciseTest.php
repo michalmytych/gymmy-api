@@ -3,6 +3,7 @@
 namespace Tests\Feature\Training\Exercise;
 
 use Tests\TestCase;
+use App\Models\Training\Training;
 use App\Models\Training\Exercise\Exercise;
 use Illuminate\Testing\Fluent\AssertableJson;
 use App\Models\Training\Exercise\MuscleGroup;
@@ -151,6 +152,17 @@ class ExerciseTest extends TestCase
                 ->has('message')
                 ->has('errors')
             );
+    }
+
+    public function testDeleteExercise(): void
+    {
+        $exercise = Exercise::factory()->create();
+
+        $this
+            ->deleteJson(route('training.exercise.delete', $exercise))
+            ->assertOk();
+
+        $this->assertDatabaseMissing('exercises', $exercise->toArray());
     }
 
     public function invalidCreateDataProvider(): array

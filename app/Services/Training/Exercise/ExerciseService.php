@@ -39,4 +39,9 @@ class ExerciseService
 
         return $exercise->load('muscleGroups');
     }
+
+    public function delete(Exercise $exercise)
+    {
+        $exercise->delete();
+    }
 }

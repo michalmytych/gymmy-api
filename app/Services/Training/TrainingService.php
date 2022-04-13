@@ -39,4 +39,9 @@ class TrainingService
 
         return $training->load('exercises');
     }
+
+    public function delete(Training $training): void
+    {
+        $training->delete();
+    }
 }

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\QueryParams\Common\Relations as RelationsQueryParam;
+use App\QueryParams\Common\WithCount as WithCountQueryParam;
 
 class Training extends Model
 {
@@ -34,7 +35,8 @@ class Training extends Model
     protected static function queryParams(): array
     {
         return [
-            RelationsQueryParam::class
+            RelationsQueryParam::class,
+            WithCountQueryParam::class
         ];
     }
 

@@ -148,6 +148,17 @@ class TrainingTest extends TestCase
             );
     }
 
+    public function testDeleteTraining(): void
+    {
+        $training = Training::factory()->create();
+
+        $this
+            ->deleteJson(route('training.delete', $training))
+            ->assertOk();
+
+        $this->assertDatabaseMissing('trainings', $training->toArray());
+    }
+
     public function invalidCreateDataProvider(): array
     {
         return [

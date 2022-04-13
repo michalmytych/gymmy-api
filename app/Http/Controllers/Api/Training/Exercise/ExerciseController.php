@@ -35,4 +35,9 @@ class ExerciseController extends Controller
     {
         return $this->exerciseService->update($exercise, $request->validated());
     }
+
+    #[Pure] public function delete(Exercise $exercise): void
+    {
+        $this->exerciseService->delete($exercise);
+    }
 }

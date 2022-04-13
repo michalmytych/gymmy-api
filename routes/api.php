@@ -31,10 +31,12 @@ Route::prefix('trainings')->as('training.')->group(function () {
         Route::get('/{exercise}', [ExerciseController::class, 'find'])->name('find');
         Route::post('/', [ExerciseController::class, 'create'])->name('create');
         Route::patch('/{exercise}', [ExerciseController::class, 'update'])->name('update');
+        Route::delete('/{exercise}', [ExerciseController::class, 'delete'])->name('delete');
     });
 
     Route::get('/', [TrainingController::class, 'all'])->name('all');
     Route::get('/{training}', [TrainingController::class, 'find'])->name('find');
     Route::post('/', [TrainingController::class, 'create'])->name('create');
     Route::patch('/{training}', [TrainingController::class, 'update'])->name('update');
+    Route::delete('/{training}', [TrainingController::class, 'delete'])->name('delete');
 });

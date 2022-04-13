@@ -41,4 +41,9 @@ class TrainingController extends Controller
             $this->trainingService->update($training, $request->validated())
         );
     }
+
+    public function delete(Training $training): void
+    {
+        $this->trainingService->delete($training);
+    }
 }
