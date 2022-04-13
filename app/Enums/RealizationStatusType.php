@@ -13,13 +13,20 @@ final class RealizationStatusType extends Enum
 
     public const COMPLETED = 2;
 
-    #[Pure] public function isNotCompleted(): bool
+    public const CANCELED = 3;
+
+    #[Pure] public function isCompleted(): bool
     {
-        return !$this->is(RealizationStatusType::COMPLETED);
+        return $this->is(RealizationStatusType::COMPLETED);
     }
 
     #[Pure] public function isRunning(): bool
     {
         return $this->is(RealizationStatusType::RUNNING);
+    }
+
+    #[Pure] public function isCanceled(): bool
+    {
+        return $this->is(RealizationStatusType::CANCELED);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Training\Exercise\Exercise;
 use Illuminate\Database\Eloquent\Collection;
 use App\Events\Realization\RealizationStarted;
+use App\Events\Realization\RealizationCanceled;
 use App\Events\Realization\RealizationCompleted;
 use App\Models\Training\Realization\Realization;
 
@@ -20,15 +21,32 @@ class RealizationService
 
     public function complete(Realization $realization): Realization
     {
-        if ($realization->status->isNotCompleted()) {
-            $realization->complete();
-
-            RealizationCompleted::dispatch($realization);
-
-            return $realization;
+        if ($realization->status->isCompleted()) {
+            abort(400, 'realization.already-completed');
         }
 
-        abort(400, 'realization.already-completed');
+        $realization->complete();
+
+        RealizationCompleted::dispatch($realization);
+
+        return $realization;
+    }
+
+    public function cancel(Realization $realization): Realization
+    {
+        if ($realization->status->isCompleted()) {
+            abort(400, 'realization.already-completed');
+        }
+
+        if ($realization->status->isCanceled()) {
+            abort(400, 'realization.already-canceled');
+        }
+
+        $realization->cancel();
+
+        RealizationCanceled::dispatch($realization);
+
+        return $realization;
     }
 
     public function realizeTraining(Training $training): Model
