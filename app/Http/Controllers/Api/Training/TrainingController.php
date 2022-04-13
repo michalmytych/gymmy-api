@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Training;
+namespace App\Http\Controllers\Api\Training;
 
-use JetBrains\PhpStorm\Pure;
 use App\Models\Training\Training;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;

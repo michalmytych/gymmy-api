@@ -2,9 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Training\TrainingController;
-use App\Http\Controllers\Training\Exercise\ExerciseController;
-use App\Http\Controllers\Training\Exercise\MuscleGroupController;
+use App\Http\Controllers\Api\Training\TrainingController;
+use App\Http\Controllers\Api\Training\Exercise\ExerciseController;
+use App\Http\Controllers\Api\Training\Exercise\MuscleGroupController;
 
 /*
 |--------------------------------------------------------------------------

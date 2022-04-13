@@ -2,23 +2,18 @@
 
 namespace Database\Factories\Training;
 
+use App\Models\Training\Training;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Training\Training>
- */
 class TrainingFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition()
+    protected $model = Training::class;
+
+    public function definition(): array
     {
         return [
-            'name' => 'Training ' . $this->faker->word(),
-            'description' => 'Description ' . $this->faker->realText()
+            'name'        => 'Training ' . $this->faker->word(),
+            'description' => 'Description ' . $this->faker->realText(),
         ];
     }
 }
