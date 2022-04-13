@@ -73,6 +73,16 @@ class Realization extends Model
         return $this->hasMany(Series::class);
     }
 
+    public function parentRealization(): BelongsTo
+    {
+        return $this->belongsTo(Realization::class);
+    }
+
+    public function childrenRealizations(): HasMany
+    {
+        return $this->hasMany(Realization::class, 'parent_realization_id');
+    }
+
     public function scopeOfStatus(Builder $builder, int $type): Builder
     {
         return $builder->where('status', $type);
@@ -92,15 +102,5 @@ class Realization extends Model
             'status'     => RealizationStatusType::CANCELED,
             'time_ended' => now(),
         ]);
-    }
-
-    public function parentRealization(): BelongsTo
-    {
-        return $this->belongsTo(Realization::class);
-    }
-
-    public function childrenRealizations(): HasMany
-    {
-        return $this->hasMany(Realization::class, 'parent_realization_id');
     }
 }
