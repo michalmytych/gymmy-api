@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Events\Realization;
+namespace App\Events\Training\Realization;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use App\Models\Training\Realization\Realization;
 
-class RealizationStarted
+class RealizationAutoTerminated
 {
     use Dispatchable, SerializesModels;
 

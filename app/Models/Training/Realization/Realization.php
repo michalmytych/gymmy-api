@@ -6,10 +6,12 @@ use Carbon\Carbon;
 use App\Traits\Models\HasUuid;
 use App\Traits\Models\Sortable;
 use App\Traits\Models\Filterable;
+use App\Models\Training\Training;
 use App\Enums\RealizationStatusType;
 use App\Traits\Models\HasQueryParams;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\Training\Exercise\Exercise;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -116,5 +118,15 @@ class Realization extends Model
             'status'     => RealizationStatusType::CANCELED,
             'time_ended' => now(),
         ]);
+    }
+
+    public function isTrainingRealization(): bool
+    {
+        return $this->realizationable_type === get_class(new Training);
+    }
+
+    public function isExerciseRealization(): bool
+    {
+        return $this->realizationable_type === get_class(new Exercise);
     }
 }

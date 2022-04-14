@@ -3,6 +3,7 @@
 namespace App\Services\Training\Realization;
 
 use App\Models\Training\Training;
+use Illuminate\Support\Facades\DB;
 use App\Enums\RealizationStatusType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
@@ -27,7 +28,15 @@ class RealizationService
             abort(400, 'realization.already-completed');
         }
 
-        $realization->complete();
+        DB::transaction(function() use ($realization) {
+            if ($realization->isTrainingRealization()) {
+                $realization
+                    ->childrenRealizations()
+                    ->each(fn($child) => $child->complete());
+            }
+
+            $realization->complete();
+        });
 
         RealizationCompleted::dispatch($realization);
 
