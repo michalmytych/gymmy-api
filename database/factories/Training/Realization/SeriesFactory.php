@@ -17,13 +17,21 @@ class SeriesFactory extends Factory
      */
     public function definition(): array
     {
+        $exerciseRealization = Realization::firstWhere('realizationable_type', get_class(new Exercise));
+
+        if (!$exerciseRealization) {
+            $exercise = Exercise::factory()->create();
+
+            $exerciseRealization = Realization::factory()->create([
+                'realizationable_type' => get_class($exercise),
+                'realizationable_id'   => $exercise->id,
+            ]);
+        }
+
         return [
-            'exercise_id'       => Exercise::first()?->id,
-            'realization_id'    => Realization::first()?->id,
+            'realization_id'    => $exerciseRealization->id,
             'repetitions_count' => random_int(5, 15),
-            'break_duration'    => 120,
-            'weight'            => random_int(5, 100),
-            'is_target'         => false,
+            'weight_kg'         => random_int(5, 100),
         ];
     }
 }

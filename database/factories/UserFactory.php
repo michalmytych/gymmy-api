@@ -13,12 +13,23 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'              => 'Test user',
-            'email'             => 'test@gmail.com',
+            'name'              => $this->faker->unique()->name(),
+            'email'             => $this->faker->unique()->email(),
             'email_verified_at' => now(),
-            'password'          => bcrypt('password'),
+            'password'          => bcrypt($this->faker->sentence(3)),
             'remember_token'    => Str::random(10),
         ];
+    }
+
+    public function testUser(): UserFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name'     => 'Test user',
+                'email'    => 'test@gmail.com',
+                'password' => bcrypt('password'),
+            ];
+        });
     }
 
     public function unverified(): UserFactory
