@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Training\Realization;
 
+use App\Models\User;
 use App\Enums\RealizationStatusType;
 use App\Models\Training\Exercise\Exercise;
 use App\Models\Training\Realization\Realization;
@@ -16,11 +17,12 @@ class RealizationFactory extends Factory
         $exercise = Exercise::factory()->create();
 
         return [
-            'realizationable_id'    => $exercise->id,
-            'realizationable_type'  => get_class($exercise),
-            'time_started'          => now(),
-            'time_ended'            => now(),
-            'status'                => RealizationStatusType::RUNNING,
+            'realizationable_id'   => $exercise->id,
+            'realizationable_type' => get_class($exercise),
+            'time_started'         => now(),
+            'time_ended'           => now(),
+            'status'               => RealizationStatusType::RUNNING,
+            'user_id'              => User::factory()->firstOrCreate()->id,
         ];
     }
 }

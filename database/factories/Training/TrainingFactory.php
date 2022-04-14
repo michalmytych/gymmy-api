@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Training;
 
+use App\Models\User;
 use App\Models\Training\Training;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -14,6 +15,7 @@ class TrainingFactory extends Factory
         return [
             'name'        => 'Training ' . $this->faker->word(),
             'description' => 'Description ' . $this->faker->realText(),
+            'user_id'     => User::factory()->firstOrCreate()->id,
         ];
     }
 }

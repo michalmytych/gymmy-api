@@ -16,6 +16,11 @@ return new class extends Migration
     {
         Schema::create('realizations', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table
+                ->foreignUuid('user_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
             $table->dateTime('time_started');
             $table->dateTime('time_ended')->nullable();
             $table->uuidMorphs('realizationable');
