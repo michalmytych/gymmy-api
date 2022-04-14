@@ -32,7 +32,7 @@ class RealizationService
             if ($realization->isTrainingRealization()) {
                 $realization
                     ->childrenRealizations()
-                    ->each(fn($child) => $child->complete());
+                    ->each(fn($child) => $child->status->isRunning() ? $child->complete() : null);
             }
 
             $realization->complete();
@@ -53,7 +53,15 @@ class RealizationService
             abort(400, 'realization.already-canceled');
         }
 
-        $realization->cancel();
+        DB::transaction(function() use ($realization) {
+            if ($realization->isTrainingRealization()) {
+                $realization
+                    ->childrenRealizations()
+                    ->each(fn($child) => $child->cancel());
+            }
+
+            $realization->cancel();
+        });
 
         RealizationCanceled::dispatch($realization);
 
