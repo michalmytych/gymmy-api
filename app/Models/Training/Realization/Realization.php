@@ -80,7 +80,7 @@ class Realization extends Model
 
     public function childrenRealizations(): HasMany
     {
-        return $this->hasMany(Realization::class, 'parent_realization_id');
+        return $this->hasMany(Realization::class);
     }
 
     public function scopeOfStatus(Builder $builder, int $type): Builder

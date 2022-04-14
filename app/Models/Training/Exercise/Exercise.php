@@ -3,6 +3,7 @@
 namespace App\Models\Training\Exercise;
 
 use App\Traits\Models\HasUuid;
+use App\Models\Training\Training;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Training\Realization\Realization;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -18,6 +19,11 @@ class Exercise extends Model
         'description',
         'name'
     ];
+
+    public function trainings(): BelongsToMany
+    {
+        return $this->belongsToMany(Training::class);
+    }
 
     public function muscleGroups(): BelongsToMany
     {

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Training\TrainingController;
 use App\Http\Controllers\Api\Training\Exercise\ExerciseController;
+use App\Http\Controllers\Api\Training\Realization\SeriesController;
 use App\Http\Controllers\Api\Training\Exercise\MuscleGroupController;
 
 /*
@@ -32,6 +33,12 @@ Route::prefix('trainings')->as('training.')->group(function () {
         Route::post('/', [ExerciseController::class, 'create'])->name('create');
         Route::patch('/{exercise}', [ExerciseController::class, 'update'])->name('update');
         Route::delete('/{exercise}', [ExerciseController::class, 'delete'])->name('delete');
+    });
+
+    Route::prefix('realizations')->as('realization.')->group(function () {
+        Route::prefix('series')->as('series.')->group(function () {
+            Route::post('/{realization}', [SeriesController::class, 'storeOnRealization'])->name('store-on-realization');
+        });
     });
 
     Route::get('/', [TrainingController::class, 'all'])->name('all');

@@ -11,7 +11,11 @@ class SeriesService
     public function storeOnRealization(Realization $realization, array $data): Model
     {
         if ($realization->realizationable_type === get_class(new Training)) {
-            abort(422, 'training.realization.cannot-add-series-to-training-realization');
+            abort(400, 'training.realization.cannot-add-series-to-training-realization');
+        }
+
+        if (!$realization->status->isRunning()) {
+            abort(400, 'training.realization.cannot-add-series-to-finished-realization');
         }
 
         return $realization
