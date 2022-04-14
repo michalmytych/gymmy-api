@@ -3,7 +3,7 @@
 namespace Tests\Feature\Training\Exercise;
 
 use Tests\TestCase;
-use App\Models\Training\Training;
+use Tests\Traits\Authenticate;
 use App\Models\Training\Exercise\Exercise;
 use Illuminate\Testing\Fluent\AssertableJson;
 use App\Models\Training\Exercise\MuscleGroup;
@@ -12,13 +12,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ExerciseTest extends TestCase
 {
-    use RefreshDatabase, HasModelsJsonStructures;
+    use Authenticate, RefreshDatabase, HasModelsJsonStructures;
 
     public function testReturnPaginatedListOfExercises(): void
     {
         Exercise::factory(3)->create();
 
         $this
+            ->authenticate()
             ->getJson(route('training.exercise.all', [
                 'paginated' => true,
             ]))
@@ -39,6 +40,7 @@ class ExerciseTest extends TestCase
         Exercise::factory(3)->create();
 
         $this
+            ->authenticate()
             ->getJson(route('training.exercise.all', [
                 'paginated' => false,
             ]))
@@ -58,6 +60,7 @@ class ExerciseTest extends TestCase
             ->first();
 
         $this
+            ->authenticate()
             ->getJson(route('training.exercise.find', $exercise))
             ->assertOk()
             ->assertJson(fn(AssertableJson $json) => $json
@@ -69,6 +72,7 @@ class ExerciseTest extends TestCase
     public function testCreateExercise(): void
     {
         $this
+            ->authenticate()
             ->postJson(route('training.exercise.create'), [
                 'name'              => '::name::',
                 'description'       => '::description::',
@@ -102,6 +106,7 @@ class ExerciseTest extends TestCase
         ]);
 
         $this
+            ->authenticate()
             ->patchJson(route('training.exercise.update', $exercise), [
                 'name'              => '::new name::',
                 'description'       => '::new description::',
@@ -132,6 +137,7 @@ class ExerciseTest extends TestCase
     public function testValidationForExerciseCreate(array $dataSet): void
     {
         $this
+            ->authenticate()
             ->postJson(route('training.exercise.create'), $dataSet)
             ->assertUnprocessable()
             ->assertJson(fn(AssertableJson $json) => $json
@@ -146,6 +152,7 @@ class ExerciseTest extends TestCase
     public function testValidationForExerciseUpdate(array $dataSet): void
     {
         $this
+            ->authenticate()
             ->patchJson(route('training.exercise.update', Exercise::factory()->create()), $dataSet)
             ->assertUnprocessable()
             ->assertJson(fn(AssertableJson $json) => $json
@@ -159,6 +166,7 @@ class ExerciseTest extends TestCase
         $exercise = Exercise::factory()->create();
 
         $this
+            ->authenticate()
             ->deleteJson(route('training.exercise.delete', $exercise))
             ->assertOk();
 

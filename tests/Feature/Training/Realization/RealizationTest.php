@@ -3,6 +3,7 @@
 namespace Tests\Feature\Training\Realization;
 
 use Tests\TestCase;
+use Tests\Traits\Authenticate;
 use App\Models\Training\Training;
 use App\Enums\RealizationStatusType;
 use App\Models\Training\Exercise\Exercise;
@@ -12,13 +13,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RealizationTest extends TestCase
 {
-    use RefreshDatabase;
+    use Authenticate, RefreshDatabase;
 
     public function testReturnPaginatedListOfRealizations(): void
     {
         Realization::factory(3)->create();
 
         $this
+            ->authenticate()
             ->getJson(route('training.realization.all', [
                 'paginated' => true,
             ]))
@@ -39,6 +41,7 @@ class RealizationTest extends TestCase
         Realization::factory(3)->create();
 
         $this
+            ->authenticate()
             ->getJson(route('training.realization.all', [
                 'paginated' => false,
             ]))
@@ -56,6 +59,7 @@ class RealizationTest extends TestCase
         $realization = Realization::factory()->create();
 
         $this
+            ->authenticate()
             ->postJson(route('training.realization.complete', $realization))
             ->assertOk()
             ->assertJson(fn(AssertableJson $json) => $json
@@ -74,6 +78,7 @@ class RealizationTest extends TestCase
         $realization = Realization::factory()->create();
 
         $this
+            ->authenticate()
             ->postJson(route('training.realization.cancel', $realization))
             ->assertOk()
             ->assertJson(fn(AssertableJson $json) => $json
@@ -97,6 +102,7 @@ class RealizationTest extends TestCase
         unset($structure['time_ended']);
 
         $this
+            ->authenticate()
             ->postJson(route('training.realization.realize-training', $training))
             ->assertOk()
             ->assertJson(fn(AssertableJson $json) => $json
@@ -125,6 +131,7 @@ class RealizationTest extends TestCase
         unset($structure['time_ended']);
 
         $this
+            ->authenticate()
             ->postJson(route('training.realization.realize-exercise', [
                 'exercise'           => $exercise,
                 'parent_realization' => $trainingRealization,
