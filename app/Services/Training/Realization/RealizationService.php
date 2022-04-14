@@ -19,7 +19,7 @@ class RealizationService
 {
     public function all(): Collection|LengthAwarePaginator
     {
-        return Auth::user()->realizations()->paginateOrGet();
+        return Auth::user()->realizations()->withQueryParams()->paginateOrGet();
     }
 
     public function complete(Realization $realization): Realization
@@ -113,7 +113,8 @@ class RealizationService
 
     private function isRunningRealizationOfType(Training|Exercise $model): bool
     {
-        return Realization::query()
+        return Auth::user()
+            ->realizations()
             ->where('status', RealizationStatusType::RUNNING)
             ->where('realizationable_type', get_class($model))
             ->exists();

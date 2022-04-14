@@ -21,7 +21,7 @@ class RealizationFactory extends Factory
             'realizationable_type' => get_class($exercise),
             'time_started'         => now(),
             'time_ended'           => now(),
-            'status'               => RealizationStatusType::RUNNING,
+            'status'               => RealizationStatusType::COMPLETED,
             'user_id'              => User::factory()->firstOrCreate()->id,
         ];
     }
