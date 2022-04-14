@@ -9,12 +9,13 @@ use App\Models\Training\Exercise\Exercise;
 use Illuminate\Database\Eloquent\Collection;
 use App\Events\Realization\RealizationStarted;
 use App\Events\Realization\RealizationCanceled;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Events\Realization\RealizationCompleted;
 use App\Models\Training\Realization\Realization;
 
 class RealizationService
 {
-    public function all(): Collection
+    public function all(): Collection|LengthAwarePaginator
     {
         return Realization::query()->paginateOrGet();
     }

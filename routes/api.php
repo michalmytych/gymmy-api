@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Training\TrainingController;
 use App\Http\Controllers\Api\Training\Exercise\ExerciseController;
 use App\Http\Controllers\Api\Training\Realization\SeriesController;
 use App\Http\Controllers\Api\Training\Exercise\MuscleGroupController;
+use App\Http\Controllers\Api\Training\Realization\RealizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,8 @@ Route::prefix('trainings')->as('training.')->group(function () {
         Route::prefix('series')->as('series.')->group(function () {
             Route::post('/{realization}', [SeriesController::class, 'storeOnRealization'])->name('store-on-realization');
         });
+
+        Route::get('/', [RealizationController::class, 'all'])->name('all');
     });
 
     Route::get('/', [TrainingController::class, 'all'])->name('all');

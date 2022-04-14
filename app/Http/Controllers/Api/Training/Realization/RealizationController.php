@@ -15,7 +15,7 @@ class RealizationController extends Controller
 
     public function all(): JsonResponse
     {
-        return response()->json(
+        return response()->paginate(
             $this->realizationService->all()
         );
     }
