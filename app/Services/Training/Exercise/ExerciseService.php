@@ -11,7 +11,7 @@ class ExerciseService
 {
     public function all(): LengthAwarePaginator|Collection
     {
-        return Auth::user()->exercises()->paginateOrGet();
+        return Auth::user()->exercises()->withQueryParams()->paginateOrGet();
     }
 
     public function find(Exercise $exercise): Exercise

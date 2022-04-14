@@ -25,9 +25,10 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'name'     => 'Test user',
-                'email'    => 'test@gmail.com',
-                'password' => bcrypt('password'),
+                'name'           => 'Test user',
+                'email'          => 'test@gmail.com',
+                'password'       => bcrypt('password'),
+                'remember_token' => 'Always_the_same_remember_token',
             ];
         });
     }

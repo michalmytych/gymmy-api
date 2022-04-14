@@ -19,12 +19,12 @@ use App\Http\Controllers\Api\Training\Realization\RealizationController;
 |
 */
 
-Route::prefix('auth')->as('auth.')->group(function() {
+Route::prefix('auth')->as('auth.')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/register', [AuthController::class, 'register'])->name('register');
 });
 
-Route::middleware('auth:sanctum')->group(function() {
+Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('trainings')->as('training.')->group(function () {
         Route::prefix('exercises')->as('exercise.')->group(function () {
             Route::prefix('muscle-groups')->as('muscle-group.')->group(function () {
@@ -54,8 +54,7 @@ Route::middleware('auth:sanctum')->group(function() {
             Route::post(
                 '/realize-exercise/{exercise}/realization/{parent_realization}',
                 [RealizationController::class, 'realizeExercise']
-            )
-                ->name('realize-exercise');
+            )->name('realize-exercise');
         });
 
         Route::get('/', [TrainingController::class, 'all'])->name('all');

@@ -6,18 +6,21 @@ use App\Traits\Models\HasUuid;
 use App\Traits\Models\Sortable;
 use App\Models\Training\Training;
 use App\Traits\Models\Filterable;
+use App\Traits\Models\HasQueryParams;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Training\Realization\Realization;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\QueryParams\Common\Relations as RelationsQueryParam;
 
 class Exercise extends Model
 {
     use HasFactory,
         HasUuid,
         Filterable,
-        Sortable;
+        Sortable,
+        HasQueryParams;
 
     protected $fillable = [
         'break_duration_s',
@@ -45,6 +48,13 @@ class Exercise extends Model
         ];
     }
 
+    protected static function queryParams(): array
+    {
+        return [
+            RelationsQueryParam::class
+        ];
+    }
+
     public function trainings(): BelongsToMany
     {
         return $this->belongsToMany(Training::class);
@@ -58,5 +68,15 @@ class Exercise extends Model
     public function realizations(): MorphMany
     {
         return $this->morphMany(Realization::class, 'realizationable');
+    }
+
+    /**
+     * @param mixed $value
+     * @param string|null $field
+     * @return Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return self::where($field ?: $this->getKeyName(), $value)->withQueryParams($value)->firstOrFail();
     }
 }
