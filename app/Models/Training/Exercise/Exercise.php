@@ -2,25 +2,63 @@
 
 namespace App\Models\Training\Exercise;
 
-use App\Traits\HasUuid;
+use App\Traits\Models\HasUuid;
+use App\Traits\Models\Sortable;
+use App\Models\Training\Training;
+use App\Traits\Models\Filterable;
+use App\Traits\Models\HasQueryParams;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Training\Realization\Series;
 use App\Models\Training\Realization\Realization;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\QueryParams\Common\Relations as RelationsQueryParam;
 
 class Exercise extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory,
+        HasUuid,
+        Filterable,
+        Sortable,
+        HasQueryParams;
 
     protected $fillable = [
-        'realization_id',
         'break_duration_s',
         'description',
-        'name'
+        'user_id',
+        'name',
     ];
+
+    protected static function queryFilters(): array
+    {
+        return [
+            // @todo
+            // NameLike
+            // Training
+            // MuscleParts
+        ];
+    }
+
+    protected static function querySorters(): array
+    {
+        return [
+            // @todo
+            // LastDisplayed
+            // CreatedAt
+        ];
+    }
+
+    protected static function queryParams(): array
+    {
+        return [
+            RelationsQueryParam::class
+        ];
+    }
+
+    public function trainings(): BelongsToMany
+    {
+        return $this->belongsToMany(Training::class);
+    }
 
     public function muscleGroups(): BelongsToMany
     {
@@ -30,5 +68,15 @@ class Exercise extends Model
     public function realizations(): MorphMany
     {
         return $this->morphMany(Realization::class, 'realizationable');
+    }
+
+    /**
+     * @param mixed $value
+     * @param string|null $field
+     * @return Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return self::where($field ?: $this->getKeyName(), $value)->withQueryParams($value)->firstOrFail();
     }
 }

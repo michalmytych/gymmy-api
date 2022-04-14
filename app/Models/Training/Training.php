@@ -2,20 +2,30 @@
 
 namespace App\Models\Training;
 
-use App\Traits\HasUuid;
+use App\Traits\Models\HasUuid;
+use App\Traits\Models\Sortable;
+use App\Traits\Models\Filterable;
+use App\Traits\Models\HasQueryParams;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Training\Exercise\Exercise;
 use App\Models\Training\Realization\Realization;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\QueryParams\Common\Relations as RelationsQueryParam;
+use App\QueryParams\Common\WithCount as WithCountQueryParam;
 
 class Training extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory,
+        HasUuid,
+        HasQueryParams,
+        Filterable,
+        Sortable;
 
     protected $fillable = [
         'name',
+        'user_id',
         'description'
     ];
 
@@ -27,5 +37,40 @@ class Training extends Model
     public function realizations(): MorphMany
     {
         return $this->morphMany(Realization::class, 'realizationable');
+    }
+
+    protected static function queryParams(): array
+    {
+        return [
+            RelationsQueryParam::class,
+            WithCountQueryParam::class
+        ];
+    }
+
+    protected static function queryFilters(): array
+    {
+        return [
+            // @todo
+            // NameLike
+        ];
+    }
+
+    protected static function querySorters(): array
+    {
+        return [
+            // @todo
+            // LastDisplayed
+            // CreatedAt
+        ];
+    }
+
+    /**
+     * @param mixed $value
+     * @param string|null $field
+     * @return Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return self::where($field ?: $this->getKeyName(), $value)->withQueryParams($value)->firstOrFail();
     }
 }
