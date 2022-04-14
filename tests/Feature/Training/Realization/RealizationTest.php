@@ -3,11 +3,12 @@
 namespace Tests\Feature\Training\Realization;
 
 use Tests\TestCase;
+use App\Models\Training\Training;
 use App\Enums\RealizationStatusType;
+use App\Models\Training\Exercise\Exercise;
 use Illuminate\Testing\Fluent\AssertableJson;
 use App\Models\Training\Realization\Realization;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 class RealizationTest extends TestCase
 {
@@ -84,6 +85,56 @@ class RealizationTest extends TestCase
             RealizationStatusType::CANCELED,
             $realization->refresh()->status->value
         );
+    }
+
+    public function testRealizeTraining(): void
+    {
+        $training = Training::factory()->create();
+
+        $structure = $this->realizationJsonStructure();
+
+        unset($structure['parent_realization_id']);
+        unset($structure['time_ended']);
+
+        $this
+            ->postJson(route('training.realization.realize-training', $training))
+            ->assertOk()
+            ->assertJson(fn(AssertableJson $json) => $json
+                ->where('status', RealizationStatusType::RUNNING)
+                ->whereAllType($structure)
+            );
+    }
+
+    public function testRealizeExercise(): void
+    {
+        $exercise = Exercise::factory()->create();
+
+        $training = Training::factory()->create();
+
+        $training
+            ->exercises()
+            ->sync([$exercise->id]);
+
+        $trainingRealization = Realization::factory()->create([
+            'realizationable_id'   => $training->id,
+            'realizationable_type' => get_class($training),
+        ]);
+
+        $structure = $this->realizationJsonStructure();
+
+        unset($structure['time_ended']);
+
+        $this
+            ->postJson(route('training.realization.realize-exercise', [
+                'exercise'           => $exercise,
+                'parent_realization' => $trainingRealization,
+            ]))
+            ->assertOk()
+            ->assertJson(fn(AssertableJson $json) => $json
+                ->where('status', RealizationStatusType::RUNNING)
+                ->where('parent_realization_id', $trainingRealization->id)
+                ->whereAllType($structure)
+            );
     }
 
     private function realizationJsonStructure(): array

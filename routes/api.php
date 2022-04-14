@@ -41,9 +41,19 @@ Route::prefix('trainings')->as('training.')->group(function () {
             Route::post('/{realization}', [SeriesController::class, 'storeOnRealization'])->name('store-on-realization');
         });
 
-        Route::get('/', [RealizationController::class, 'all'])->name('all');
-        Route::post('/{realization}/complete', [RealizationController::class, 'complete'])->name('complete');
-        Route::post('/{realization}/cancel', [RealizationController::class, 'cancel'])->name('cancel');
+        Route::get('/', [RealizationController::class, 'all'])
+            ->name('all');
+        Route::post('/{realization}/complete', [RealizationController::class, 'complete'])
+            ->name('complete');
+        Route::post('/{realization}/cancel', [RealizationController::class, 'cancel'])
+            ->name('cancel');
+        Route::post('/realize-training/{training}', [RealizationController::class, 'realizeTraining'])
+            ->name('realize-training');
+        Route::post(
+            '/realize-exercise/{exercise}/realization/{parent_realization}',
+            [RealizationController::class, 'realizeExercise']
+        )
+            ->name('realize-exercise');
     });
 
     Route::get('/', [TrainingController::class, 'all'])->name('all');
