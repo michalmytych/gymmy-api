@@ -3,9 +3,11 @@
 namespace Tests\Feature\Training\Realization;
 
 use Tests\TestCase;
+use App\Enums\RealizationStatusType;
 use Illuminate\Testing\Fluent\AssertableJson;
 use App\Models\Training\Realization\Realization;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class RealizationTest extends TestCase
 {
@@ -31,7 +33,7 @@ class RealizationTest extends TestCase
             );
     }
 
-    public function testDisablePaginationOnListOfTrainings(): void
+    public function testDisablePaginationOnListOfRealizations(): void
     {
         Realization::factory(3)->create();
 
@@ -46,6 +48,42 @@ class RealizationTest extends TestCase
                     ->whereAllType($this->realizationJsonStructure())
                 )
             );
+    }
+
+    public function testCompleteStartedRealization(): void
+    {
+        $realization = Realization::factory()->create();
+
+        $this
+            ->postJson(route('training.realization.complete', $realization))
+            ->assertOk()
+            ->assertJson(fn(AssertableJson $json) => $json
+                ->where('status', RealizationStatusType::COMPLETED)
+                ->whereAllType($this->realizationJsonStructure())
+            );
+
+        $this->assertEquals(
+            RealizationStatusType::COMPLETED,
+            $realization->refresh()->status->value
+        );
+    }
+
+    public function testCancelStartedRealization(): void
+    {
+        $realization = Realization::factory()->create();
+
+        $this
+            ->postJson(route('training.realization.cancel', $realization))
+            ->assertOk()
+            ->assertJson(fn(AssertableJson $json) => $json
+                ->where('status', RealizationStatusType::CANCELED)
+                ->whereAllType($this->realizationJsonStructure())
+            );
+
+        $this->assertEquals(
+            RealizationStatusType::CANCELED,
+            $realization->refresh()->status->value
+        );
     }
 
     private function realizationJsonStructure(): array

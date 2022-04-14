@@ -42,6 +42,8 @@ Route::prefix('trainings')->as('training.')->group(function () {
         });
 
         Route::get('/', [RealizationController::class, 'all'])->name('all');
+        Route::post('/{realization}/complete', [RealizationController::class, 'complete'])->name('complete');
+        Route::post('/{realization}/cancel', [RealizationController::class, 'cancel'])->name('cancel');
     });
 
     Route::get('/', [TrainingController::class, 'all'])->name('all');
