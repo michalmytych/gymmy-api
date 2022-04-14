@@ -91,12 +91,12 @@ class Realization extends Model
 
     public function parentRealization(): BelongsTo
     {
-        return $this->belongsTo(Realization::class);
+        return $this->belongsTo(Realization::class, 'parent_realization_id');
     }
 
     public function childrenRealizations(): HasMany
     {
-        return $this->hasMany(Realization::class);
+        return $this->hasMany(Realization::class, 'parent_realization_id');
     }
 
     public function scopeOfStatus(Builder $builder, int $type): Builder
@@ -128,5 +128,15 @@ class Realization extends Model
     public function isExerciseRealization(): bool
     {
         return $this->realizationable_type === get_class(new Exercise);
+    }
+
+    /**
+     * @param mixed $value
+     * @param string|null $field
+     * @return Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return self::where($field ?: $this->getKeyName(), $value)->withQueryParams($value)->firstOrFail();
     }
 }
