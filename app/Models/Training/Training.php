@@ -3,6 +3,8 @@
 namespace App\Models\Training;
 
 use App\Traits\Models\HasUuid;
+use App\Traits\Models\Sortable;
+use App\Traits\Models\Filterable;
 use App\Traits\Models\HasQueryParams;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Training\Exercise\Exercise;
@@ -15,7 +17,11 @@ use App\QueryParams\Common\WithCount as WithCountQueryParam;
 
 class Training extends Model
 {
-    use HasFactory, HasUuid, HasQueryParams;
+    use HasFactory,
+        HasUuid,
+        HasQueryParams,
+        Filterable,
+        Sortable;
 
     protected $fillable = [
         'name',
@@ -38,6 +44,23 @@ class Training extends Model
         return [
             RelationsQueryParam::class,
             WithCountQueryParam::class
+        ];
+    }
+
+    protected static function queryFilters(): array
+    {
+        return [
+            // @todo
+            // NameLike
+        ];
+    }
+
+    protected static function querySorters(): array
+    {
+        return [
+            // @todo
+            // LastDisplayed
+            // CreatedAt
         ];
     }
 

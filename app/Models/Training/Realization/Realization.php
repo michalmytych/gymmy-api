@@ -4,6 +4,7 @@ namespace App\Models\Training\Realization;
 
 use Carbon\Carbon;
 use App\Traits\Models\HasUuid;
+use App\Traits\Models\Sortable;
 use App\Traits\Models\Filterable;
 use App\Enums\RealizationStatusType;
 use App\Traits\Models\HasQueryParams;
@@ -25,7 +26,11 @@ use App\QueryParams\Common\WithCount as WithCountQueryParam;
  */
 class Realization extends Model
 {
-    use HasFactory, HasUuid, Filterable, HasQueryParams;
+    use HasFactory,
+        HasUuid,
+        Filterable,
+        Sortable,
+        HasQueryParams;
 
     protected $fillable = [
         'parent_realization_id',
@@ -42,17 +47,25 @@ class Realization extends Model
     protected static function queryFilters(): array
     {
         return [
-            /**
-             * @todo
-             * RealizationableNameLike
-             * Realizationable
-             * RealizedDateFrom
-             * RealizedDateTo
-             * RealizationableType
-             * ParentRealization
-             * Status
-             * Common/FullTextSearch
-             */
+            // @todo
+            // NameLike
+            // RealizationableNameLike
+            // Realizationable
+            // RealizedDateFrom
+            // RealizedDateTo
+            // RealizationableType
+            // ParentRealization
+            // Status
+            // Common/FullTextSearch
+        ];
+    }
+
+    protected static function querySorters(): array
+    {
+        return [
+            // @todo
+            // LastDisplayed
+            // TimeEnded
         ];
     }
 
