@@ -31,6 +31,7 @@ class Realization extends Model
         'parent_realization_id',
         'time_started',
         'time_ended',
+        'user_id',
         'status',
     ];
 
@@ -59,7 +60,7 @@ class Realization extends Model
     {
         return [
             RelationsQueryParam::class,
-            WithCountQueryParam::class
+            WithCountQueryParam::class,
         ];
     }
 

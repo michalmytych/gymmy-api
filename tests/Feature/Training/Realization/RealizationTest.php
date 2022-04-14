@@ -9,11 +9,12 @@ use App\Enums\RealizationStatusType;
 use App\Models\Training\Exercise\Exercise;
 use Illuminate\Testing\Fluent\AssertableJson;
 use App\Models\Training\Realization\Realization;
+use App\Traits\TestCase\HasModelsJsonStructures;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RealizationTest extends TestCase
 {
-    use Authenticate, RefreshDatabase;
+    use Authenticate, RefreshDatabase, HasModelsJsonStructures;
 
     public function testReturnPaginatedListOfRealizations(): void
     {
@@ -142,20 +143,5 @@ class RealizationTest extends TestCase
                 ->where('parent_realization_id', $trainingRealization->id)
                 ->whereAllType($structure)
             );
-    }
-
-    private function realizationJsonStructure(): array
-    {
-        return [
-            'id'                    => 'string',
-            'parent_realization_id' => ['string', 'null'],
-            'realizationable_type'  => 'string',
-            'realizationable_id'    => 'string',
-            'time_started'          => 'string',
-            'time_ended'            => ['string', 'null'],
-            'status'                => 'integer',
-            'created_at'            => 'string',
-            'updated_at'            => 'string',
-        ];
     }
 }

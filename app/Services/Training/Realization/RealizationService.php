@@ -4,6 +4,7 @@ namespace App\Services\Training\Realization;
 
 use App\Models\Training\Training;
 use App\Enums\RealizationStatusType;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Training\Exercise\Exercise;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,7 +18,7 @@ class RealizationService
 {
     public function all(): Collection|LengthAwarePaginator
     {
-        return Realization::query()->paginateOrGet();
+        return Auth::user()->realizations()->paginateOrGet();
     }
 
     public function complete(Realization $realization): Realization
@@ -59,6 +60,7 @@ class RealizationService
         $realization = $training
             ->realizations()
             ->create([
+                'user_id'      => Auth::id(),
                 'time_started' => now(),
                 'status'       => RealizationStatusType::RUNNING,
             ]);
@@ -81,6 +83,7 @@ class RealizationService
         $realization = $exercise
             ->realizations()
             ->create([
+                'user_id'               => Auth::id(),
                 'time_started'          => now(),
                 'status'                => RealizationStatusType::RUNNING,
                 'parent_realization_id' => $parentRealization->id,

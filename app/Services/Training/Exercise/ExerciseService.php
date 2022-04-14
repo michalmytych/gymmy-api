@@ -2,6 +2,7 @@
 
 namespace App\Services\Training\Exercise;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Training\Exercise\Exercise;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -10,7 +11,7 @@ class ExerciseService
 {
     public function all(): LengthAwarePaginator|Collection
     {
-        return Exercise::query()->paginateOrGet();
+        return Auth::user()->exercises()->paginateOrGet();
     }
 
     public function find(Exercise $exercise): Exercise
@@ -20,7 +21,9 @@ class ExerciseService
 
     public function create(array $data): Exercise
     {
-        $exercise = Exercise::create($data);
+        $exercise = Auth::user()
+            ->exercises()
+            ->create($data);
 
         $exercise
             ->muscleGroups()

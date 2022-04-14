@@ -17,7 +17,8 @@ class Exercise extends Model
     protected $fillable = [
         'break_duration_s',
         'description',
-        'name'
+        'user_id',
+        'name',
     ];
 
     public function trainings(): BelongsToMany

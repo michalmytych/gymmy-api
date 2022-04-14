@@ -3,6 +3,7 @@
 namespace App\Services\Training;
 
 use App\Models\Training\Training;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -10,7 +11,7 @@ class TrainingService
 {
     public function all(): LengthAwarePaginator|Collection
     {
-        return Training::query()->withQueryParams()->paginateOrGet();
+        return Auth::user()->trainings()->withQueryParams()->paginateOrGet();
     }
 
     public function find(Training $training): Training
@@ -20,7 +21,9 @@ class TrainingService
 
     public function create(array $data): Training
     {
-        $training = Training::create($data);
+        $training = Auth::user()
+            ->trainings()
+            ->create($data);
 
         $training
             ->exercises()
