@@ -5,6 +5,7 @@
 /vendor
 .env
 .env.backup
+.env.testing
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json
@@ -13,3 +14,6 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+
+# OSx specific file
+.DS_Store
