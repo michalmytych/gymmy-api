@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Realization;
+namespace App\Events\Training\Realization;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;

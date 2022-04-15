@@ -4,7 +4,7 @@ namespace App\Listeners\Training\Realization;
 
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Events\Realization\RealizationStarted;
+use App\Events\Training\Realization\RealizationStarted;
 use App\Jobs\Training\Realization\TerminateRealization;
 
 class ScheduleRealizationTermination implements ShouldQueue

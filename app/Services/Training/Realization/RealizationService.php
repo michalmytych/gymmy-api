@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Training\Exercise\Exercise;
 use Illuminate\Database\Eloquent\Collection;
-use App\Events\Realization\RealizationStarted;
-use App\Events\Realization\RealizationCanceled;
 use Illuminate\Pagination\LengthAwarePaginator;
-use App\Events\Realization\RealizationCompleted;
 use App\Models\Training\Realization\Realization;
+use App\Events\Training\Realization\RealizationStarted;
+use App\Events\Training\Realization\RealizationCanceled;
+use App\Events\Training\Realization\RealizationCompleted;
 
 class RealizationService
 {
