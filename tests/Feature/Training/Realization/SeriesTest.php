@@ -4,6 +4,7 @@ namespace Tests\Feature\Training\Realization;
 
 use Tests\TestCase;
 use Tests\Traits\Authenticate;
+use App\Enums\RealizationStatusType;
 use App\Models\Training\Realization\Series;
 use Illuminate\Testing\Fluent\AssertableJson;
 use App\Models\Training\Realization\Realization;
@@ -15,7 +16,9 @@ class SeriesTest extends TestCase
 
     public function testStoreOnRealization()
     {
-        $realization = Realization::factory()->create();
+        $realization = Realization::factory()->create([
+            'status' => RealizationStatusType::RUNNING,
+        ]);
 
         $this
             ->authenticate()
