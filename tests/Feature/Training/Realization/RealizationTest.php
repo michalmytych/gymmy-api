@@ -57,7 +57,9 @@ class RealizationTest extends TestCase
 
     public function testCompleteStartedRealization(): void
     {
-        $realization = Realization::factory()->create();
+        $realization = Realization::factory()->create([
+            'status' => RealizationStatusType::RUNNING,
+        ]);
 
         $this
             ->authenticate()
@@ -76,7 +78,9 @@ class RealizationTest extends TestCase
 
     public function testCancelStartedRealization(): void
     {
-        $realization = Realization::factory()->create();
+        $realization = Realization::factory()->create([
+            'status' => RealizationStatusType::RUNNING,
+        ]);
 
         $this
             ->authenticate()
@@ -125,6 +129,7 @@ class RealizationTest extends TestCase
         $trainingRealization = Realization::factory()->create([
             'realizationable_id'   => $training->id,
             'realizationable_type' => get_class($training),
+            'status'               => RealizationStatusType::RUNNING,
         ]);
 
         $structure = $this->realizationJsonStructure();

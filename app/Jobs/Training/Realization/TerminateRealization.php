@@ -15,12 +15,12 @@ class TerminateRealization implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private RealizationService $realizationService) {}
+    public function __construct(private Realization $realization) {}
 
-    public function handle(Realization $realization)
+    public function handle(RealizationService $realizationService)
     {
         RealizationAutoTerminated::dispatch(
-            $this->realizationService->complete($realization)
+            $realizationService->complete($this->realization)
         );
     }
 }

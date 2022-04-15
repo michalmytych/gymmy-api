@@ -8,6 +8,7 @@ use App\Traits\Models\Filterable;
 use App\Traits\Models\HasQueryParams;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Training\Exercise\Exercise;
+use App\Traits\Models\ResolvesWithQueryParams;
 use App\Models\Training\Realization\Realization;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,11 +18,12 @@ use App\QueryParams\Common\WithCount as WithCountQueryParam;
 
 class Training extends Model
 {
-    use HasFactory,
-        HasUuid,
-        HasQueryParams,
+    use HasUuid,
+        Sortable,
         Filterable,
-        Sortable;
+        HasFactory,
+        HasQueryParams,
+        ResolvesWithQueryParams;
 
     protected $fillable = [
         'name',
@@ -62,15 +64,5 @@ class Training extends Model
             // LastDisplayed
             // CreatedAt
         ];
-    }
-
-    /**
-     * @param mixed $value
-     * @param string|null $field
-     * @return Model|null
-     */
-    public function resolveRouteBinding($value, $field = null)
-    {
-        return self::where($field ?: $this->getKeyName(), $value)->withQueryParams($value)->firstOrFail();
     }
 }

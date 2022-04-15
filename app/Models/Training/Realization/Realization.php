@@ -12,6 +12,7 @@ use App\Traits\Models\HasQueryParams;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Training\Exercise\Exercise;
+use App\Traits\Models\ResolvesWithQueryParams;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,7 +33,8 @@ class Realization extends Model
         HasUuid,
         Filterable,
         Sortable,
-        HasQueryParams;
+        HasQueryParams,
+        ResolvesWithQueryParams;
 
     protected $fillable = [
         'parent_realization_id',
@@ -128,15 +130,5 @@ class Realization extends Model
     public function isExerciseRealization(): bool
     {
         return $this->realizationable_type === get_class(new Exercise);
-    }
-
-    /**
-     * @param mixed $value
-     * @param string|null $field
-     * @return Model|null
-     */
-    public function resolveRouteBinding($value, $field = null)
-    {
-        return self::where($field ?: $this->getKeyName(), $value)->withQueryParams($value)->firstOrFail();
     }
 }
