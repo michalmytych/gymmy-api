@@ -44,4 +44,24 @@ class AuthTest extends TestCase
                 ->whereType('token', 'string')
             );
     }
+
+    public function testUnauthorizedOnBadCredentials(): void
+    {
+        User::create([
+            'name'     => '::name::',
+            'email'    => 'test@gmail.com',
+            'password' => bcrypt('::password::'),
+        ]);
+
+        $this
+            ->postJson(route('auth.login'), [
+                'email'    => 'test@gmail.com',
+                'password' => '::bad password::',
+            ])
+            ->assertUnauthorized()
+            ->assertJson(fn(AssertableJson $json) => $json
+                ->where('message', 'auth.unauthorized')
+                ->etc()
+            );
+    }
 }

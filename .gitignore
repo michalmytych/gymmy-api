@@ -17,3 +17,6 @@ yarn-error.log
 
 # OSx specific file
 .DS_Store
+
+# Code coverage reports
+/reports

@@ -4,6 +4,7 @@ namespace Tests\Feature\Training\Realization;
 
 use Tests\TestCase;
 use Tests\Traits\Authenticate;
+use App\Models\Training\Training;
 use App\Enums\RealizationStatusType;
 use App\Models\Training\Realization\Series;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -36,5 +37,56 @@ class SeriesTest extends TestCase
                 ])
                 ->etc()
             );
+    }
+
+    public function testCannotStoreOnTrainingRealization(): void
+    {
+        $training = Training::factory()->create();
+
+        $realization = Realization::factory()->create([
+            'status'               => RealizationStatusType::RUNNING,
+            'realizationable_id'   => $training->id,
+            'realizationable_type' => get_class($training),
+        ]);
+
+        $this
+            ->authenticate()
+            ->postJson(route('training.realization.series.store-on-realization', $realization), [
+                'repetitions_count' => 12,
+                'weight_kg'         => 45,
+            ])
+            ->assertStatus(400)
+            ->assertJson(fn(AssertableJson $json) => $json
+                ->where('message', 'training.realization.cannot-add-series-to-training-realization')
+                ->etc()
+            );
+    }
+
+    /**
+     * @dataProvider badStatusesForStoringSeriesDataProvider
+     */
+    public function testCannotStoreOnFinishedRealization(int $status): void
+    {
+        $realization = Realization::factory()->create(['status' => $status]);
+
+        $this
+            ->authenticate()
+            ->postJson(route('training.realization.series.store-on-realization', $realization), [
+                'repetitions_count' => 12,
+                'weight_kg'         => 45,
+            ])
+            ->assertStatus(400)
+            ->assertJson(fn(AssertableJson $json) => $json
+                ->where('message', 'training.realization.cannot-add-series-to-finished-realization')
+                ->etc()
+            );
+    }
+
+    public function badStatusesForStoringSeriesDataProvider(): array
+    {
+        return [
+            'Completed realization' => [RealizationStatusType::COMPLETED],
+            'Canceled realization'  => [RealizationStatusType::CANCELED],
+        ];
     }
 }

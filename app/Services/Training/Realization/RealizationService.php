@@ -24,8 +24,8 @@ class RealizationService
 
     public function complete(Realization $realization): Realization
     {
-        if ($realization->status->isCompleted()) {
-            abort(400, 'realization.already-completed');
+        if (!$realization->status->isRunning()) {
+            abort(400, 'realization.is-not-running');
         }
 
         DB::transaction(function() use ($realization) {
@@ -45,12 +45,8 @@ class RealizationService
 
     public function cancel(Realization $realization): Realization
     {
-        if ($realization->status->isCompleted()) {
-            abort(400, 'realization.already-completed');
-        }
-
-        if ($realization->status->isCanceled()) {
-            abort(400, 'realization.already-canceled');
+        if (!$realization->status->isRunning()) {
+            abort(400, 'realization.is-not-running');
         }
 
         DB::transaction(function() use ($realization) {
