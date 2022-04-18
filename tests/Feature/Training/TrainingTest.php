@@ -2,11 +2,13 @@
 
 namespace Tests\Feature\Training;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use Tests\Traits\Authenticate;
 use App\Models\Training\Training;
 use App\Models\Training\Exercise\Exercise;
 use Illuminate\Testing\Fluent\AssertableJson;
+use App\Models\Training\Exercise\MuscleGroup;
 use App\Traits\TestCase\HasModelsJsonStructures;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -156,6 +158,133 @@ class TrainingTest extends TestCase
             );
     }
 
+    public function testFilterTrainingsByExerciseMuscleGroups(): void
+    {
+        $legs  = MuscleGroup::factory()->create();
+        $belly = MuscleGroup::factory()->create();
+        $back  = MuscleGroup::factory()->create();
+
+        $pushTraining = Training::factory()->create();
+        $pullTraining = Training::factory()->create();
+
+        $exerciseA = Exercise::factory()->create();
+        $exerciseB = Exercise::factory()->create();
+
+        $exerciseA
+            ->muscleGroups()
+            ->sync([$legs->id, $belly->id]);
+
+        $exerciseB
+            ->muscleGroups()
+            ->sync([$back->id, $belly->id]);
+
+        $pushTraining
+            ->exercises()
+            ->sync([$exerciseA->id]);
+
+        $pullTraining
+            ->exercises()
+            ->sync([$exerciseB->id]);
+
+        $this
+            ->authenticate()
+            ->getJson(route('training.all', [
+                'paginated' => false,
+                'filters'   => [
+                    'muscle_groups' => [
+                        $legs->id,
+                    ],
+                ],
+            ]))
+            ->assertOk()
+            ->assertJson(fn(AssertableJson $json) => $json
+                ->count(1)
+                ->each(fn(AssertableJson $json) => $json
+                    ->where('id', $pushTraining->id)
+                    ->etc()
+                )
+            );
+    }
+
+    public function testReturnTrainingWithRelations(): void
+    {
+        $training = Training::factory()->create();
+
+        $training
+            ->exercises()
+            ->sync(
+                Exercise::factory(3)
+                    ->create()
+                    ->pluck('id')
+            );
+
+        $this
+            ->authenticate()
+            ->getJson(route('training.find', [
+                'training'  => $training->id,
+                'relations' => [
+                    'exercises',
+                    'exercises.muscleGroups',
+                ],
+            ]))
+            ->assertOk()
+            ->assertJson(fn(AssertableJson $json) => $json
+                ->has('exercises', fn(AssertableJson $json) => $json
+                    ->each(fn(AssertableJson $json) => $json
+                        ->has('muscle_groups')
+                        ->etc()
+                    )
+                )
+                ->etc()
+            );
+    }
+
+    public function testReturnTrainingWithCount(): void
+    {
+        $training = Training::factory()->create();
+
+        $training
+            ->exercises()
+            ->sync(
+                Exercise::factory(3)
+                    ->create()
+                    ->pluck('id')
+            );
+
+        $this
+            ->authenticate()
+            ->getJson(route('training.find', [
+                'training'   => $training->id,
+                'with_count' => [
+                    'exercises',
+                ],
+            ]))
+            ->assertOk()
+            ->assertJson(fn(AssertableJson $json) => $json
+                ->where('exercises_count', 3)
+                ->etc()
+            );
+    }
+
+    /**
+     * @dataProvider sortersDataProviders
+     */
+    public function testTrainingsSorters(array $input, array $output): void
+    {
+        Training::factory()->createMany($input['data']);
+
+        $this
+            ->authenticate()
+            ->getJson(route('training.all', [
+                'paginated' => false,
+                'sorters'   => $input['sorter'],
+            ]))
+            ->assertOk()
+            ->assertJson(fn(AssertableJson $json) => $json
+                ->whereAll($output)
+            );
+    }
+
     public function testDeleteTraining(): void
     {
         $training = Training::factory()->create();
@@ -166,6 +295,46 @@ class TrainingTest extends TestCase
             ->assertOk();
 
         $this->assertDatabaseMissing('trainings', $training->toArray());
+    }
+
+    public function sortersDataProviders(): array
+    {
+        return [
+            'Asc name query sorter'        => [
+                [
+                    'sorter' => [
+                        'name' => 'asc',
+                    ],
+                    'data'   => [
+                        ['name' => '0-D'],
+                        ['name' => '0-R'],
+                        ['name' => '0-A'],
+                    ],
+                ],
+                [
+                    '0.name' => '0-A',
+                    '1.name' => '0-D',
+                    '2.name' => '0-R',
+                ],
+            ],
+            'Desc name query sorter'       => [
+                [
+                    'sorter' => [
+                        'name' => 'desc',
+                    ],
+                    'data'   => [
+                        ['name' => '0-D'],
+                        ['name' => '0-R'],
+                        ['name' => '0-A'],
+                    ],
+                ],
+                [
+                    '0.name' => '0-R',
+                    '1.name' => '0-D',
+                    '2.name' => '0-A',
+                ],
+            ]
+        ];
     }
 
     public function invalidCreateDataProvider(): array

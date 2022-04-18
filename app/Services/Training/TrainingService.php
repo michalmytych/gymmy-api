@@ -11,7 +11,12 @@ class TrainingService
 {
     public function all(): LengthAwarePaginator|Collection
     {
-        return Auth::user()->trainings()->withQueryParams()->paginateOrGet();
+        return Auth::user()
+            ->trainings()
+            ->withFilters()
+            ->withSorters()
+            ->withQueryParams()
+            ->paginateOrGet();
     }
 
     public function find(Training $training): Training

@@ -10,10 +10,13 @@ use App\Traits\Models\HasQueryParams;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\ResolvesWithQueryParams;
 use App\Models\Training\Realization\Realization;
+use App\QuerySorters\Common\Name as NameQuerySorter;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\QueryParams\Common\Relations as RelationsQueryParam;
+use App\QuerySorters\Common\CreatedAt as CreatedAtQuerySorter;
+use App\QueryFilters\Training\Exercise\MuscleGroups as MuscleGroupsQueryFilter;
 
 class Exercise extends Model
 {
@@ -34,19 +37,15 @@ class Exercise extends Model
     protected static function queryFilters(): array
     {
         return [
-            // @todo
-            // NameLike
-            // Training
-            // MuscleParts
+            MuscleGroupsQueryFilter::class
         ];
     }
 
     protected static function querySorters(): array
     {
         return [
-            // @todo
-            // LastDisplayed
-            // CreatedAt
+            NameQuerySorter::class,
+            CreatedAtQuerySorter::class
         ];
     }
 

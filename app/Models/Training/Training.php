@@ -10,11 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Training\Exercise\Exercise;
 use App\Traits\Models\ResolvesWithQueryParams;
 use App\Models\Training\Realization\Realization;
+use App\QuerySorters\Common\Name as NameQuerySorter;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\QueryParams\Common\Relations as RelationsQueryParam;
 use App\QueryParams\Common\WithCount as WithCountQueryParam;
+use App\QuerySorters\Common\CreatedAt as CreatedAtQuerySorter;
+use App\QueryFilters\Training\MuscleGroups as MuscleGroupsQueryFilter;
 
 class Training extends Model
 {
@@ -52,17 +55,15 @@ class Training extends Model
     protected static function queryFilters(): array
     {
         return [
-            // @todo
-            // NameLike
+            MuscleGroupsQueryFilter::class
         ];
     }
 
     protected static function querySorters(): array
     {
         return [
-            // @todo
-            // LastDisplayed
-            // CreatedAt
+            NameQuerySorter::class,
+            CreatedAtQuerySorter::class
         ];
     }
 }

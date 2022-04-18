@@ -19,6 +19,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\QueryParams\Common\Relations as RelationsQueryParam;
 use App\QueryParams\Common\WithCount as WithCountQueryParam;
+use App\QueryFilters\Common\CreatedAtTo as CreatedAtToQueryFilter;
+use App\QueryFilters\Training\Realization\Status as StatusQueryFilter;
+use App\QueryFilters\Common\CreatedAtFrom as CreatedAtFromQueryFilter;
+use App\QuerySorters\Training\Realization\TimeEnded as TimeEndedQuerySorter;
+use App\QueryFilters\Training\Realization\Realizationable as RealizationableQueryFilter;
+use App\QueryFilters\Training\Realization\RealizationableType as RealizationableTypeQueryFilter;
 
 /**
  * @property string $id
@@ -51,25 +57,18 @@ class Realization extends Model
     protected static function queryFilters(): array
     {
         return [
-            // @todo
-            // NameLike
-            // RealizationableNameLike
-            // Realizationable
-            // RealizedDateFrom
-            // RealizedDateTo
-            // RealizationableType
-            // ParentRealization
-            // Status
-            // Common/FullTextSearch
+            RealizationableQueryFilter::class,
+            CreatedAtToQueryFilter::class,
+            CreatedAtFromQueryFilter::class,
+            RealizationableTypeQueryFilter::class,
+            StatusQueryFilter::class
         ];
     }
 
     protected static function querySorters(): array
     {
         return [
-            // @todo
-            // LastDisplayed
-            // TimeEnded
+            TimeEndedQuerySorter::class
         ];
     }
 
