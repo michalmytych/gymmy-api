@@ -42,10 +42,11 @@ Save changes and move to Docker Desktop app, then run `gymmy-api_php-fpm` contai
 php artisan config:cache
 # Generate secret app key, used as encryption "seed"
 php artisan key:generate
-# Migrate database structures
+# Migrate database structure
 php artisan migrate
 # Run database seeders (filling with fake generated data)
 php artisan db:seed
+# Run tests to make sure app is fully functional in current environment
 ```
 Seeders will create api user, which can be used in postman.
 Go to `/Auth/Login` request, and fill body with raw JSON:
