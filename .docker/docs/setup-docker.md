@@ -14,7 +14,7 @@ de8757813339   gymmy-api_nginx     0.00%     4.355MiB / 3.841GiB   0.11%     6.1
 934e8042947c   gymmy-api_mariadb   0.02%     60.88MiB / 3.841GiB   1.55%     1.66kB / 0B       ...
 1586f9fda18d   gymmy-api_redis     0.27%     2.121MiB / 3.841GiB   0.05%     1.66kB / 0B       ...
 ```
-You can also check if containers are running in Docker Desktop app. There you can access shells of each container. Select shell icon of gymmy-api_mariadb to acces it's command prompt. Then:
+You can also check if containers are running in Docker Desktop app. There you can access shells of each container. Select shell icon of `gymmy-api_mariadb` to acces it's command prompt. Then:
 ```bash
 $ mysql -p
 Type password:
@@ -25,7 +25,7 @@ After you enter mariadb server, you can create new database:
 MariaDB [(none)]> create database gymmy_dev;
 Query OK, 1 row affected (0.002 sec)
 ```
-No, when database is created, you can leave mariadb container shell.
+Now, when database is created, you can leave mariadb container shell.
 Head to projects root directory, and there, copy contents of `.env.example` file to new one, and call it `.env`.
 Next, update database related values:
 ```bash
@@ -36,7 +36,7 @@ DB_DATABASE=gymmy_dev
 DB_USERNAME=root
 DB_PASSWORD=secret
 ```
-Save changes and move to Docker Desktop app, then run gymmy-api_php-fpm command prompt:
+Save changes and move to Docker Desktop app, then run `gymmy-api_php-fpm` container's command prompt:
 ```bash
 # Refresh cached app config - should be executed after every change to .env file
 php artisan config:cache
@@ -48,13 +48,13 @@ php artisan migrate
 php artisan db:seed
 ```
 Seeders will create api user, which can be used in postman.
-Go to Auth/Login request, and fill body with raw JSON:
+Go to `/Auth/Login` request, and fill body with raw JSON:
 ```json
 {
     "email": "test@gmail.com",
     "password": "password"
 }
 ```
-Returned token should automatically be set as bearer token for current requests collection,
+Returned token should be automatically set as `Bearer token` for current requests collection,
 if not, hit the "eye" icon on the right and set current value of `api_token` to received token.
-Now, you should be able to access other api resource through protected endpoints.
+Now, you should be able to access other api resources through protected endpoints.
