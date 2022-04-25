@@ -11,8 +11,23 @@
 |
 */
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn() => view('welcome'));
+Route::get(
+    '/',
+    fn () => view('welcome')
+)->name('welcome');
+
+Route::get(
+    'docs',
+    function () {
+        $mdText = file_get_contents(
+            docs_path() . '/setup-docker.md'
+        );
+
+        return view('docs.show', ['markdown' => $mdText]);
+    }
+)->name('docs');
 
 require __DIR__ . '/auth.php';
