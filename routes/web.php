@@ -10,24 +10,15 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Docs\DocsController;
+use App\Http\Controllers\Docs\WelcomeController;
 
-Route::get(
-    '/',
-    fn () => view('welcome')
-)->name('welcome');
+Route::get('/', [WelcomeController::class, 'welcome'])
+    ->name('welcome');
 
-Route::get(
-    'docs',
-    function () {
-        $mdText = file_get_contents(
-            docs_path() . '/setup-docker.md'
-        );
-
-        return view('docs.show', ['markdown' => $mdText]);
-    }
-)->name('docs');
+Route::get('docs', [DocsController::class, 'index'])
+    ->middleware(['hide.in-prod'])
+    ->name('docs');
 
 require __DIR__ . '/auth.php';

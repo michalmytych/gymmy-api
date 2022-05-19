@@ -15,7 +15,7 @@ trait Authenticate
 
     public function setUpUser(): void
     {
-        $this->user = User::factory()->testUser()->create();
+        $this->user = User::factory()->create();
     }
 
     protected function authenticate(): TestCase
