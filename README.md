@@ -6,6 +6,3 @@
     Compact, yet reliable trainer & nutritionist living in your smartphone.    
 </p>
 
----
-
-For guide about how to run this project, go (there)[docs/docker/setup.md].
