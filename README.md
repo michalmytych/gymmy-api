@@ -3,7 +3,9 @@
 </p>
 
 <p align="center">
-    Compact, yet reliable trainer & nutritionist living in your smartphone.
-    <br>
-    For guide about how to run this project, see <a href="docs/docker/setup.md"></a>.
+    Compact, yet reliable trainer & nutritionist living in your smartphone.    
 </p>
+
+---
+
+For guide about how to run this project, go (there)[docs/docker/setup.md].
