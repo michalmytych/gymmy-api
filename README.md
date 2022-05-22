@@ -5,5 +5,5 @@
 <p align="center">
     Compact, yet reliable trainer & nutritionist living in your smartphone.
     <br>
-    For guide about how to run this project, see [docs](docs/docker/setup.md).
+    For guide about how to run this project, see <a href="docs/docker/setup.md"></a>.
 </p>
