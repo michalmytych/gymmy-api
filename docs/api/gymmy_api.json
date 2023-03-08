@@ -1,0 +1,722 @@
+{
+	"info": {
+		"_postman_id": "bd13e893-143c-46fc-b8ac-e64d78b3de41",
+		"name": "Gymmy API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Training",
+			"item": [
+				{
+					"name": "Exercise",
+					"item": [
+						{
+							"name": "MuscleGroups",
+							"item": [
+								{
+									"name": "Get all muscle groups",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_url}}/api/trainings/exercises/muscle-groups?paginated=true",
+											"host": [
+												"{{api_url}}"
+											],
+											"path": [
+												"api",
+												"trainings",
+												"exercises",
+												"muscle-groups"
+											],
+											"query": [
+												{
+													"key": "paginated",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get all exercises",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{api_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/api/trainings/exercises/?paginated=true&relations[]=realizations",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"exercises",
+										""
+									],
+									"query": [
+										{
+											"key": "paginated",
+											"value": "true"
+										},
+										{
+											"key": "relations[]",
+											"value": "realizations"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find exercise by id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/api/trainings/exercises/{{exercise_id}}?relations[]=muscleGroups",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"exercises",
+										"{{exercise_id}}"
+									],
+									"query": [
+										{
+											"key": "relations[]",
+											"value": "muscleGroups"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update exercise",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Exercise name\",\n    \"description\": \"Exercise description\",\n    \"break_duration_s\": 90,\n    \"muscle_groups_ids\": []\n}"
+								},
+								"url": {
+									"raw": "{{api_url}}/api/trainings/exercises/{{exercise_id}}",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"exercises",
+										"{{exercise_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create request",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Exercise name\",\n    \"description\": \"Exercise description\",\n    \"break_duration_s\": 90,\n    \"muscle_groups_ids\": []\n}"
+								},
+								"url": {
+									"raw": "{{api_url}}/api/trainings/exercises",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"exercises"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete exercise",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/api/trainings/exercises/{{exercise_id}}",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"exercises",
+										"{{exercise_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Realization",
+					"item": [
+						{
+							"name": "Series",
+							"item": [
+								{
+									"name": "Store series on realization",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"repetitions_count\": 10,\n    \"weight_kg\": 45\n}"
+										},
+										"url": {
+											"raw": "{{api_url}}/api/trainings/realizations/series/{{realization_id}}",
+											"host": [
+												"{{api_url}}"
+											],
+											"path": [
+												"api",
+												"trainings",
+												"realizations",
+												"series",
+												"{{realization_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get all realizations",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/api/trainings/realizations?relations[]=realizationable&paginated=true",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"realizations"
+									],
+									"query": [
+										{
+											"key": "relations[]",
+											"value": "realizationable"
+										},
+										{
+											"key": "paginated",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Realize training",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/api/trainings/realizations/realize-training/{{training_id}}",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"realizations",
+										"realize-training",
+										"{{training_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Complete realization",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/api/trainings/realizations/{{realization_id}}/complete",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"realizations",
+										"{{realization_id}}",
+										"complete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel realization",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/api/trainings/realizations/{{realization_id}}/cancel",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"realizations",
+										"{{realization_id}}",
+										"cancel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Realize exercise",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/api/trainings/realizations/realize-exercise/{{exercise_id}}/realization{{parent_realization_id}}",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"realizations",
+										"realize-exercise",
+										"{{exercise_id}}",
+										"realization{{parent_realization_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Training",
+					"item": [
+						{
+							"name": "Get all trainings",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/api/trainings?paginated=true&per_page=2&relations[]=exercises",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings"
+									],
+									"query": [
+										{
+											"key": "paginated",
+											"value": "true"
+										},
+										{
+											"key": "per_page",
+											"value": "2"
+										},
+										{
+											"key": "page",
+											"value": "3",
+											"disabled": true
+										},
+										{
+											"key": "relations[]",
+											"value": "exercises"
+										}
+									]
+								},
+								"description": "> Make sure to include `Accept` and `Content-Type` headers. It's a good practice.\n\n**Available query parameters**\n\n`paginated` **bool** - Indicates if resource should be paginated.\n\n`per_page` **int** - Sets amount of resource collection items. Works only if *paginated* is set to **true**.\n\n`page` **int** - Selects pagination page. Works only if *paginated* is set to **true**.\n\n`relations[]` **array** - Possible values that array can contain: `exercise`. Also, you can select specific properties of related selected models like that: `exercise:id,name`"
+							},
+							"response": []
+						},
+						{
+							"name": "Find training by id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/api/trainings/{{training_id}}?relations[]=realizations",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"{{training_id}}"
+									],
+									"query": [
+										{
+											"key": "relations[]",
+											"value": "realizations"
+										}
+									]
+								},
+								"description": "**URL parameters**\n\n`trening_id` **string** - Id of requested resource.\n\n**Available query parameters**\n\n`relations[]` **array** - Possible values that array can contain: `exercise`. Also, you can select specific properties of related selected models like that: `exercise:id,name`\n\n**Responses**\n\n`200 OK` - Default and proper response.\n\n`500 Internal Server Error` - Thrown on bad relation selected. Message like this:\n\n```\n{\n    \"message\": \"Call to undefined relationship [exercises1] on model [App\\\\Models\\\\Training\\\\Training].\",\n    \"exception\": \"Illuminate\\\\Database\\\\Eloquent\\\\RelationNotFoundException\",\n    ...\n}\n\n```\n\nappears only in app's debug mode and will not appear in production."
+							},
+							"response": []
+						},
+						{
+							"name": "Create training",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Training name\",\n    \"description\": \"Some training description\",\n    \"exercises_ids\": []\n}"
+								},
+								"url": {
+									"raw": "{{api_url}}/api/trainings",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings"
+									]
+								},
+								"description": "**Example body content**:\n\n```\n{\n    \"name\": \"Training name\",\n    \"description\": \"Some training description\"\n}\n\n```"
+							},
+							"response": []
+						},
+						{
+							"name": "Update training",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Training name\",\n    \"description\": \"Some training description\",\n    \"exercises_ids\": []\n}"
+								},
+								"url": {
+									"raw": "{{api_url}}/api/trainings/{{training_id}}",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"{{training_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete training",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/api/trainings/{{training_id}}",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"trainings",
+										"{{training_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{api_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@gmail.com\",\n    \"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{api_url}}/api/auth/login",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

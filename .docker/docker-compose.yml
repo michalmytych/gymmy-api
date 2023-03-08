@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  php-fpm:
+    container_name: gymmy-api_php-fpm
+    build:
+      context: ./php-fpm
+    environment:
+      - APP_ENV=dev
+      - APP_DEBUG=true
+      - XDEBUG_CONFIG=remote_host=host.docker.internal
+    volumes:
+      - ../:/var/www/html
+      - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
+
+  nginx:
+    container_name: gymmy-api_nginx
+    build:
+      context: ./nginx
+    volumes:
+      - ../:/var/www/html
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/sites/:/etc/nginx/sites-available
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+    depends_on:
+      - php-fpm
+    ports:
+      - 80:80
+      - 443:443
+
+  mardiadb:
+    container_name: gymmy-api_mariadb
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+    ports:
+      - 3306:3306
+    volumes:
+      - data_mariadb:/var/lib/mysql
+
+  redis:
+    container_name: gymmy-api_redis
+    image: redis
+    volumes:
+      - data_redis:/data
+    ports:
+      - 6379:6379
+
+volumes:
+  data_redis:
+    driver: local
+  data_mariadb:
+    driver: local
