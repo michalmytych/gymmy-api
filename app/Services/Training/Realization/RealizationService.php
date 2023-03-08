@@ -115,8 +115,7 @@ class RealizationService
     {
         return Auth::user()
             ->realizations()
-            ->where('status', RealizationStatusType::RUNNING)
-            ->where('realizationable_type', get_class($model))
+            ->where(['status' => RealizationStatusType::RUNNING,'realizationable_type' => get_class($model),])
             ->exists();
     }
 }
