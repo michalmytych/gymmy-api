@@ -1,5 +1,4 @@
 # Setup
-___
 ### Running project on Windows
 The easiest way to set up this project is to use XAMPP - a popular package which contains Apache WWW server, MariaDB and PHP language.
 You can download it from [here](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/8.0.17/). Second thing which will be needed is Composer, a package manager for PHP language. 
