@@ -103,8 +103,7 @@ class RealizationTest extends TestCase
 
         $structure = $this->realizationJsonStructure();
 
-        unset($structure['parent_realization_id']);
-        unset($structure['time_ended']);
+        unset($structure['parent_realization_id'], $structure['time_ended']);
 
         $this
             ->authenticate()
